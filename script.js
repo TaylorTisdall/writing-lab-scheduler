@@ -7,3 +7,20 @@ const supabaseClient = supabase.createClient(
 );
 
 console.log("Supabase connected!");
+async function addConsultant() {
+  const name = document.getElementById("consultantName").value;
+
+  const { data, error } = await supabaseClient
+    .from("consultants")
+    .insert([
+      { name: name }
+    ]);
+
+  if (error) {
+    console.log(error);
+    alert("Error adding consultant");
+  } else {
+    console.log(data);
+    alert("Consultant added!");
+  }
+}
