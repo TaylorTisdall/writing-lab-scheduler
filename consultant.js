@@ -9,6 +9,7 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_PUBLISHABLE_KEY
 );
 
+window.writingLabConsultantClient = supabaseClient;
 const loginSection =
   document.getElementById("login-section");
 
