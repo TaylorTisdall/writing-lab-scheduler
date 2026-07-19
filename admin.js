@@ -179,8 +179,8 @@ async function loadDashboard() {
     adminClient
       .from("consultants")
       .select(
-        "id, name, email, user_id, active, is_admin"
-      )
+  "id, name, email, user_id, active"
+)
       .order("name"),
 
     adminClient
@@ -332,10 +332,7 @@ function renderConsultants(
         ? "Login connected"
         : "No login"
     ];
-
-    if (consultant.is_admin) {
-      labels.push("Administrator");
-    }
+  
 
     item.textContent = labels.join(" — ");
     list.append(item);
