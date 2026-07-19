@@ -19,25 +19,107 @@
 
     <section aria-labelledby="appointments-heading">
       <h2 id="appointments-heading">
-        Student appointments
+        Schedule an appointment
       </h2>
 
       <p>
-        Online appointment booking is not open yet.
+        Choose an available 30-minute time. The system will
+        automatically assign an available consultant.
       </p>
+
+      <button id="reload-button" type="button">
+        Reload availability
+      </button>
+
+      <div id="slot-options"></div>
+
+      <p
+        id="availability-message"
+        role="status"
+        aria-live="polite"
+      ></p>
     </section>
 
-    <section aria-labelledby="consultants-heading">
-      <h2 id="consultants-heading">
-        Consultants
+    <section
+      id="booking-section"
+      aria-labelledby="booking-heading"
+      hidden
+    >
+      <h2 id="booking-heading">
+        Complete your appointment
       </h2>
 
-      <p>
-        <a href="consultant.html">
-          Open the consultant scheduling page
-        </a>
-      </p>
+      <p id="selected-time"></p>
+
+      <form id="booking-form">
+        <p>
+          <label for="student-name">
+            Your name
+          </label><br>
+
+          <input
+            id="student-name"
+            name="student-name"
+            type="text"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+        </p>
+
+        <p>
+          <label for="student-email">
+            Houston ISD email address
+          </label><br>
+
+          <input
+            id="student-email"
+            name="student-email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+        </p>
+
+        <p>
+          Use your Houston ISD email address. The system checks
+          the email format but does not send a verification email.
+        </p>
+
+        <button id="book-button" type="submit">
+          Book appointment
+        </button>
+      </form>
     </section>
+
+    <section
+      id="confirmation-section"
+      aria-labelledby="confirmation-heading"
+      hidden
+    >
+      <h2 id="confirmation-heading">
+        Appointment confirmed
+      </h2>
+
+      <p id="confirmation-message"></p>
+    </section>
+
+    <p
+      id="booking-message"
+      role="status"
+      aria-live="polite"
+    ></p>
+
+    <hr>
+
+    <p>
+      <a href="consultant.html">
+        Consultant sign in
+      </a>
+    </p>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="student.js"></script>
 </body>
 </html>
