@@ -102,6 +102,11 @@
       </h2>
 
       <p id="confirmation-message"></p>
+
+      <p>
+        Save your booking reference. You will need it if you
+        cancel your appointment.
+      </p>
     </section>
 
     <p
@@ -109,6 +114,58 @@
       role="status"
       aria-live="polite"
     ></p>
+
+    <section aria-labelledby="cancellation-heading">
+      <h2 id="cancellation-heading">
+        Cancel an appointment
+      </h2>
+
+      <p>
+        Enter the booking reference and Houston ISD email used
+        for the appointment.
+      </p>
+
+      <form id="cancellation-form">
+        <p>
+          <label for="cancellation-reference">
+            Booking reference
+          </label><br>
+
+          <input
+            id="cancellation-reference"
+            name="cancellation-reference"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            required
+          >
+        </p>
+
+        <p>
+          <label for="cancellation-email">
+            Houston ISD email address
+          </label><br>
+
+          <input
+            id="cancellation-email"
+            name="cancellation-email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+        </p>
+
+        <button id="cancel-button" type="submit">
+          Cancel appointment
+        </button>
+      </form>
+
+      <p
+        id="cancellation-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+    </section>
 
     <hr>
 
@@ -121,5 +178,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="student.js"></script>
+  <script src="cancel.js"></script>
 </body>
 </html>
