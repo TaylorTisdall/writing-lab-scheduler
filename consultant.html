@@ -84,7 +84,26 @@
           </button>
         </p>
       </form>
+<section aria-labelledby="upcoming-heading">
+  <h2 id="upcoming-heading">
+    Upcoming appointments
+  </h2>
 
+  <button
+    id="refresh-appointments-button"
+    type="button"
+  >
+    Refresh appointments
+  </button>
+
+  <div id="appointment-list"></div>
+
+  <p
+    id="appointment-list-message"
+    role="status"
+    aria-live="polite"
+  ></p>
+</section>
       <button id="sign-out-button" type="button">
         Sign out
       </button>
@@ -99,5 +118,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="consultant.js"></script>
+    <script src="consultant-appointments.js"></script>
 </body>
 </html>
