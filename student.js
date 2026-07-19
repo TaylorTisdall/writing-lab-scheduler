@@ -9,6 +9,7 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_PUBLISHABLE_KEY
 );
 
+window.writingLabSupabaseClient = supabaseClient;
 const reloadButton =
   document.getElementById("reload-button");
 
