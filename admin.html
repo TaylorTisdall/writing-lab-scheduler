@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Writing Lab Administration</title>
+
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+  <main>
+    <h1>Writing Lab Administration</h1>
+
+    <section
+      id="admin-login-section"
+      aria-labelledby="admin-login-heading"
+    >
+      <h2 id="admin-login-heading">
+        Administrator sign in
+      </h2>
+
+      <form id="admin-login-form">
+        <p>
+          <label for="admin-email">
+            HISD email address
+          </label><br>
+
+          <input
+            id="admin-email"
+            type="email"
+            autocomplete="username"
+            required
+          >
+        </p>
+
+        <p>
+          <label for="admin-password">
+            Password
+          </label><br>
+
+          <input
+            id="admin-password"
+            type="password"
+            autocomplete="current-password"
+            required
+          >
+        </p>
+
+        <button id="admin-login-button" type="submit">
+          Sign in
+        </button>
+      </form>
+    </section>
+
+    <section id="admin-dashboard" hidden>
+      <h2>Dashboard</h2>
+
+      <button id="refresh-dashboard-button" type="button">
+        Refresh dashboard
+      </button>
+
+      <section aria-labelledby="school-year-heading">
+        <h2 id="school-year-heading">
+          Active school year
+        </h2>
+
+        <p id="school-year-summary"></p>
+      </section>
+
+      <section aria-labelledby="consultant-list-heading">
+        <h2 id="consultant-list-heading">
+          Consultants
+        </h2>
+
+        <div id="admin-consultant-list"></div>
+      </section>
+
+      <section aria-labelledby="calendar-heading">
+        <h2 id="calendar-heading">
+          Lab calendar
+        </h2>
+
+        <p id="calendar-summary"></p>
+      </section>
+
+      <section aria-labelledby="admin-appointments-heading">
+        <h2 id="admin-appointments-heading">
+          Upcoming appointments
+        </h2>
+
+        <div id="admin-appointment-list"></div>
+      </section>
+
+      <p
+        id="admin-status-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+      <button id="admin-sign-out-button" type="button">
+        Sign out
+      </button>
+    </section>
+
+    <p>
+      <a href="index.html">Student scheduler</a>
+      |
+      <a href="consultant.html">Consultant page</a>
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
