@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Writing Lab Scheduler</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Houston ISD Writing Lab</title>
+
+  <link rel="icon" href="data:,">
 </head>
 
 <body>
+  <main>
+    <h1>Houston ISD Writing Lab</h1>
 
-<h1>Houston ISD Writing Lab</h1>
-<h2>Database Test</h2>
+    <section aria-labelledby="appointments-heading">
+      <h2 id="appointments-heading">
+        Student appointments
+      </h2>
 
-<input id="consultantName" type="text" placeholder="Consultant name">
+      <p>
+        Online appointment booking is not open yet.
+      </p>
+    </section>
 
-<button onclick="addConsultant()">Add Consultant</button>
-<p>
-Welcome to the Writing Lab appointment system.
-</p>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+    <section aria-labelledby="consultants-heading">
+      <h2 id="consultants-heading">
+        Consultants
+      </h2>
+
+      <p>
+        <a href="consultant.html">
+          Open the consultant scheduling page
+        </a>
+      </p>
+    </section>
+  </main>
 </body>
 </html>
