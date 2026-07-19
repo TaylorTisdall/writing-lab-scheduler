@@ -119,6 +119,33 @@ async function signIn(event) {
 }
 
 async function loadSchedule() {
+  const {
+    data: passwordChangeRequired,
+    error: passwordRequirementError
+  } = await supabaseClient.rpc(
+    "must_change_my_password"
+  );
+
+  if (passwordRequirementError) {
+    showSchedule();
+
+    showStatus(
+      `The password requirement could not be checked: ${
+        passwordRequirementError.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
+  if (passwordChangeRequired === true) {
+    window.location.href =
+      "change-password.html";
+
+    return;
+  }
+
   showSchedule();
   showStatus("Loading your schedule...");
   shiftOptions.replaceChildren();
