@@ -72,6 +72,120 @@
 
         <p id="school-year-summary"></p>
       </section>
+      <section aria-labelledby="create-account-heading">
+        <h2 id="create-account-heading">
+          Create a Writing Lab account
+        </h2>
+
+        <p>
+          Create a consultant account, an administrator account,
+          or an account with both roles. Give the temporary password
+          directly to the account holder.
+        </p>
+
+        <form id="create-account-form">
+          <p>
+            <label for="new-account-name">
+              Display name
+            </label><br>
+
+            <input
+              id="new-account-name"
+              type="text"
+              maxlength="100"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-account-email">
+              HISD email address
+            </label><br>
+
+            <input
+              id="new-account-email"
+              type="email"
+              autocomplete="off"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-account-type">
+              Account roles
+            </label><br>
+
+            <select id="new-account-type" required>
+              <option value="consultant">
+                Consultant only
+              </option>
+
+              <option value="administrator">
+                Administrator only
+              </option>
+
+              <option value="both">
+                Administrator and consultant
+              </option>
+            </select>
+          </p>
+
+          <p id="new-role-title-container" hidden>
+            <label for="new-role-title">
+              Administrator role title
+            </label><br>
+
+            <input
+              id="new-role-title"
+              type="text"
+              maxlength="100"
+              placeholder="For example: Sponsor or President"
+            >
+          </p>
+
+          <p>
+            <label for="new-account-password">
+              Temporary password
+            </label><br>
+
+            <input
+              id="new-account-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            ><br>
+
+            <small>
+              Use at least 12 characters.
+            </small>
+          </p>
+
+          <p>
+            <label for="confirm-account-password">
+              Confirm temporary password
+            </label><br>
+
+            <input
+              id="confirm-account-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <button id="create-account-button" type="submit">
+            Create account
+          </button>
+        </form>
+
+        <p
+          id="create-account-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
 
 <section aria-labelledby="administrator-list-heading">
         <h2 id="administrator-list-heading">
