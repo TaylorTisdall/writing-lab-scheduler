@@ -9,6 +9,8 @@ const adminClient = window.supabase.createClient(
   ADMIN_SUPABASE_KEY
 );
 
+window.writingLabAdminClient = adminClient;
+
 const loginSection =
   document.getElementById("admin-login-section");
 
