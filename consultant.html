@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Writing Lab Consultant Schedule</title>
+
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+  <main>
+    <h1>Writing Lab Consultant Schedule</h1>
+
+    <section
+      id="login-section"
+      aria-labelledby="login-heading"
+    >
+      <h2 id="login-heading">Consultant sign in</h2>
+
+      <p>
+        Sign in with the consultant account provided by the
+        Writing Lab administrator.
+      </p>
+
+      <form id="login-form">
+        <p>
+          <label for="email">HISD email address</label><br>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            required
+          >
+        </p>
+
+        <p>
+          <label for="password">Password</label><br>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          >
+        </p>
+
+        <button id="login-button" type="submit">
+          Sign in
+        </button>
+      </form>
+    </section>
+
+    <section
+      id="schedule-section"
+      aria-labelledby="schedule-heading"
+      hidden
+    >
+      <h2 id="schedule-heading">Weekly availability</h2>
+
+      <p id="welcome-message"></p>
+      <p id="school-year-message"></p>
+
+      <form id="schedule-form">
+        <fieldset>
+          <legend>
+            Select every 30-minute slot you can work each week
+          </legend>
+
+          <div id="shift-options"></div>
+        </fieldset>
+
+        <p>
+          <button id="save-button" type="submit">
+            Save availability
+          </button>
+        </p>
+      </form>
+
+      <button id="sign-out-button" type="button">
+        Sign out
+      </button>
+    </section>
+
+    <p
+      id="status-message"
+      role="status"
+      aria-live="polite"
+    ></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="consultant.js"></script>
+</body>
+</html>
