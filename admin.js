@@ -160,6 +160,31 @@ async function verifyAdministrator() {
     return;
   }
 
+  const {
+    data: passwordChangeRequired,
+    error: passwordRequirementError
+  } = await adminClient.rpc(
+    "must_change_my_password"
+  );
+
+  if (passwordRequirementError) {
+    showStatus(
+      `The password requirement could not be checked: ${
+        passwordRequirementError.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
+  if (passwordChangeRequired === true) {
+    window.location.href =
+      "change-password.html";
+
+    return;
+  }
+
   refreshButton.disabled = false;
   await loadDashboard();
 }
