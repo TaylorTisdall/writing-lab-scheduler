@@ -186,6 +186,72 @@
           aria-live="polite"
         ></p>
       </section>
+    <section aria-labelledby="reset-password-heading">
+        <h2 id="reset-password-heading">
+          Reset an account password
+        </h2>
+
+        <p>
+          Set a temporary password when a consultant or
+          administrator cannot access their account. They will
+          be required to replace it after signing in.
+        </p>
+
+        <form id="admin-reset-password-form">
+          <p>
+            <label for="reset-password-email">
+              Account email
+            </label><br>
+
+            <input
+              id="reset-password-email"
+              type="email"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="reset-temporary-password">
+              New temporary password
+            </label><br>
+
+            <input
+              id="reset-temporary-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="confirm-reset-password">
+              Confirm temporary password
+            </label><br>
+
+            <input
+              id="confirm-reset-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <button
+            id="admin-reset-password-button"
+            type="submit"
+          >
+            Reset password
+          </button>
+        </form>
+
+        <p
+          id="admin-reset-password-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
 
 <section aria-labelledby="administrator-list-heading">
         <h2 id="administrator-list-heading">
@@ -479,5 +545,6 @@
   <script src="admin-consultants.js"></script>
   <script src="admin-administrators.js"></script>
   <script src="admin-calendar.js"></script>
+  <script src="admin-passwords.js"></script>
 </body>
 </html>
