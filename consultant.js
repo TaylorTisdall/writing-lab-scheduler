@@ -158,7 +158,7 @@ async function loadSchedule() {
   ] = await Promise.all([
     supabaseClient
       .from("consultants")
-      .select("id, name")
+      .select("id, name, active")
       .maybeSingle(),
 
     supabaseClient
@@ -199,7 +199,10 @@ async function loadSchedule() {
     return;
   }
 
-  if (!consultantResult.data) {
+  if (
+    !consultantResult.data ||
+    consultantResult.data.active !== true
+  ) {
     showStatus(
       "This login is not connected to an active consultant.",
       true
