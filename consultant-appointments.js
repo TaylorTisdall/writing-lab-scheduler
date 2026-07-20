@@ -67,26 +67,9 @@ async function loadUpcomingAppointments() {
   );
 
   const { data, error } =
-    await appointmentClient
-      .from("appointments")
-      .select(
-        [
-          "id",
-          "student_name",
-          "student_email",
-          "appointment_date",
-          "appointment_start_time",
-          "status"
-        ].join(",")
-      )
-      .order(
-        "appointment_date",
-        { ascending: true }
-      )
-      .order(
-        "appointment_start_time",
-        { ascending: true }
-      );
+    await appointmentClient.rpc(
+      "get_my_upcoming_appointments"
+    );
 
   refreshAppointmentsButton.disabled = false;
 
