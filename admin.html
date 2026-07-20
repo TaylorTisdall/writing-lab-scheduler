@@ -293,6 +293,158 @@
         </h2>
 
         <p id="calendar-summary"></p>
+        <h3>Create a school year</h3>
+
+        <form id="create-school-year-form">
+          <p>
+            <label for="new-school-year-name">
+              School year name
+            </label><br>
+
+            <input
+              id="new-school-year-name"
+              type="text"
+              maxlength="50"
+              placeholder="For example: 2027–2028"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-school-year-start">
+              First student day
+            </label><br>
+
+            <input
+              id="new-school-year-start"
+              type="date"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-school-year-end">
+              Last student day
+            </label><br>
+
+            <input
+              id="new-school-year-end"
+              type="date"
+              required
+            >
+          </p>
+
+          <p>
+            <label>
+              <input
+                id="new-school-year-active"
+                type="checkbox"
+              >
+              Make this the active school year
+            </label>
+          </p>
+
+          <button
+            id="create-school-year-button"
+            type="submit"
+          >
+            Create school year
+          </button>
+        </form>
+
+        <p
+          id="create-school-year-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Manage school years</h3>
+
+        <div id="school-year-management-list"></div>
+
+        <p
+          id="school-year-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Add an individual lab date</h3>
+
+        <p>
+          Use this for a special Thursday or another exception.
+          Adding an existing date updates its note.
+        </p>
+
+        <form id="add-lab-date-form">
+          <p>
+            <label for="add-lab-date-school-year">
+              School year
+            </label><br>
+
+            <select
+              id="add-lab-date-school-year"
+              required
+            ></select>
+          </p>
+
+          <p>
+            <label for="add-lab-date-value">
+              Lab date
+            </label><br>
+
+            <input
+              id="add-lab-date-value"
+              type="date"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="add-lab-date-note">
+              Note (optional)
+            </label><br>
+
+            <input
+              id="add-lab-date-note"
+              type="text"
+              maxlength="200"
+              placeholder="For example: Special Thursday session"
+            >
+          </p>
+
+          <button
+            id="add-lab-date-button"
+            type="submit"
+          >
+            Add lab date
+          </button>
+        </form>
+
+        <p
+          id="add-lab-date-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Stored lab dates</h3>
+
+        <p>
+          <label for="lab-date-year-filter">
+            Show dates for
+          </label>
+
+          <select
+            id="lab-date-year-filter"
+          ></select>
+        </p>
+
+        <div id="lab-date-management-list"></div>
+
+        <p
+          id="lab-date-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
       </section>
 
       <section aria-labelledby="admin-appointments-heading">
@@ -326,5 +478,6 @@
   <script src="admin-roles.js"></script>
   <script src="admin-consultants.js"></script>
   <script src="admin-administrators.js"></script>
+  <script src="admin-calendar.js"></script>
 </body>
 </html>
