@@ -147,21 +147,82 @@ async function loadSchedule() {
     return;
   }
 
+  const {
+    data: sessionData,
+    error: sessionError
+  } = await supabaseClient.auth.getSession();
+
+  if (sessionError) {
+    showLogin();
+
+    showStatus(
+      `The signed-in account could not be checked: ${
+        sessionError.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
+  if (!sessionData.session) {
+    showLogin();
+    showStatus("You must sign in.", true);
+    return;
+  }
+
+  const currentUserId =
+    sessionData.session.user.id;
+
+  const {
+    data: consultant,
+    error: consultantError
+  } = await supabaseClient
+    .from("consultants")
+    .select("id, name, active")
+    .eq("user_id", currentUserId)
+    .maybeSingle();
+
+  if (consultantError) {
+    showSchedule();
+    shiftOptions.replaceChildren();
+
+    showStatus(
+      `The consultant account could not be checked: ${
+        consultantError.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
+  if (
+    !consultant ||
+    consultant.active !== true
+  ) {
+    showSchedule();
+    shiftOptions.replaceChildren();
+    welcomeMessage.textContent = "";
+    schoolYearMessage.textContent = "";
+
+    showStatus(
+      "This login is not connected to an active consultant.",
+      true
+    );
+
+    return;
+  }
+
   showSchedule();
   showStatus("Loading your schedule...");
   shiftOptions.replaceChildren();
 
   const [
-    consultantResult,
     schoolYearResult,
     templatesResult,
     assignmentsResult
   ] = await Promise.all([
-    supabaseClient
-      .from("consultants")
-      .select("id, name, active")
-      .maybeSingle(),
-
     supabaseClient
       .from("school_years")
       .select("id, name, start_date, end_date")
@@ -177,10 +238,10 @@ async function loadSchedule() {
     supabaseClient
       .from("consultant_shifts")
       .select("shift_template_id")
+      .eq("consultant_id", consultant.id)
   ]);
 
   const results = [
-    consultantResult,
     schoolYearResult,
     templatesResult,
     assignmentsResult
@@ -200,18 +261,6 @@ async function loadSchedule() {
     return;
   }
 
-  if (
-    !consultantResult.data ||
-    consultantResult.data.active !== true
-  ) {
-    showStatus(
-      "This login is not connected to an active consultant.",
-      true
-    );
-
-    return;
-  }
-
   if (!schoolYearResult.data) {
     showStatus(
       "No active school year is available.",
@@ -223,12 +272,13 @@ async function loadSchedule() {
 
   const selectedShiftIds = new Set(
     assignmentsResult.data.map(
-      (assignment) => assignment.shift_template_id
+      (assignment) =>
+        assignment.shift_template_id
     )
   );
 
   welcomeMessage.textContent =
-    `Signed in as ${consultantResult.data.name}.`;
+    `Signed in as ${consultant.name}.`;
 
   schoolYearMessage.textContent =
     `School year: ${schoolYearResult.data.name}`;
@@ -238,9 +288,10 @@ async function loadSchedule() {
     selectedShiftIds
   );
 
-  showStatus("Your current availability is loaded.");
+  showStatus(
+    "Your current availability is loaded."
+  );
 }
-
 function renderShiftOptions(
   templates,
   selectedShiftIds
