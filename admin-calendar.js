@@ -418,7 +418,20 @@ function renderSchoolYearManagement() {
 
       section.append(generatorMessage);
     }
+  if (
+      !schoolYear.active &&
+      dateCount === 0
+    ) {
+      const deleteButton =
+        createDeleteSchoolYearButton(
+          schoolYear
+        );
 
+      section.append(
+        document.createTextNode(" "),
+        deleteButton
+      );
+    }
     section.append(
       document.createElement("hr")
     );
@@ -690,6 +703,66 @@ function createGenerateDatesButton(
 
       showSchoolYearManagementMessage(
         `${data} regular lab dates were generated. Remove holidays and other closed dates before opening booking.`
+      );
+    }
+  );
+
+  return button;
+}
+function createDeleteSchoolYearButton(
+  schoolYear
+) {
+  const button =
+    document.createElement("button");
+
+  button.type = "button";
+  button.textContent =
+    "Delete empty school year";
+
+  button.addEventListener(
+    "click",
+    async () => {
+      const confirmed =
+        window.confirm(
+          `Permanently delete the empty school year ${schoolYear.name}?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      button.disabled = true;
+
+      showSchoolYearManagementMessage(
+        `Deleting ${schoolYear.name}...`
+      );
+
+      const { error } =
+        await calendarManagementClient.rpc(
+          "admin_delete_empty_school_year",
+          {
+            p_school_year_id:
+              schoolYear.id
+          }
+        );
+
+      button.disabled = false;
+
+      if (error) {
+        showSchoolYearManagementMessage(
+          `The school year could not be deleted: ${
+            error.message
+          }`,
+          true
+        );
+
+        return;
+      }
+
+      await refreshCalendarDisplays();
+
+      showSchoolYearManagementMessage(
+        `${schoolYear.name} was deleted.`
       );
     }
   );
