@@ -1,3 +1,4 @@
+// Writing Lab consultant scheduling page.
 const SUPABASE_URL =
   "https://mdnyzlzaarzozbmqhecz.supabase.co";
 
