@@ -193,7 +193,76 @@
         </h2>
 
         <div id="administrator-list"></div>
+        <h3>Grant administrator access to an existing account</h3>
 
+        <p>
+          Use this when the person already has a Writing Lab login,
+          such as a consultant becoming president.
+        </p>
+
+        <form id="promote-administrator-form">
+          <p>
+            <label for="promote-administrator-email">
+              Existing account email
+            </label><br>
+
+            <input
+              id="promote-administrator-email"
+              type="email"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="promote-administrator-name">
+              Administrator display name
+            </label><br>
+
+            <input
+              id="promote-administrator-name"
+              type="text"
+              maxlength="100"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="promote-administrator-title">
+              Role title
+            </label><br>
+
+            <input
+              id="promote-administrator-title"
+              type="text"
+              maxlength="100"
+              placeholder="For example: President or Sponsor"
+              required
+            >
+          </p>
+
+          <button
+            id="promote-administrator-button"
+            type="submit"
+          >
+            Grant administrator access
+          </button>
+        </form>
+
+        <p
+          id="promote-administrator-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Manage administrator roles</h3>
+
+        <div id="administrator-management-list"></div>
+
+        <p
+          id="administrator-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
         <p
           id="administrator-list-message"
           role="status"
@@ -256,5 +325,6 @@
   <script src="admin.js"></script>
   <script src="admin-roles.js"></script>
   <script src="admin-consultants.js"></script>
+  <script src="admin-administrators.js"></script>
 </body>
 </html>
