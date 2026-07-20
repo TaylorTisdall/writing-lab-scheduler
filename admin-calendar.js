@@ -921,6 +921,7 @@ function renderLabDateManagement() {
   }
 
   let currentMonth = "";
+  let currentMonthDetails = null;
 
   for (const labDate of displayedDates) {
     const monthHeadingText =
@@ -928,17 +929,36 @@ function renderLabDateManagement() {
         labDate.lab_date
       );
 
-    if (monthHeadingText !== currentMonth) {
+     if (monthHeadingText !== currentMonth) {
       currentMonth = monthHeadingText;
 
-      const monthHeading =
-        document.createElement("h4");
+      const datesInMonth =
+        displayedDates.filter(
+          (storedDate) =>
+            formatCalendarMonth(
+              storedDate.lab_date
+            ) === currentMonth
+        ).length;
 
-      monthHeading.textContent =
-        currentMonth;
+      currentMonthDetails =
+        document.createElement("details");
+
+      const monthSummary =
+        document.createElement("summary");
+
+      monthSummary.textContent =
+        `${currentMonth} — ${datesInMonth} ${
+          datesInMonth === 1
+            ? "date"
+            : "dates"
+        }`;
+
+      currentMonthDetails.append(
+        monthSummary
+      );
 
       labDateManagementList.append(
-        monthHeading
+        currentMonthDetails
       );
     }
 
@@ -1021,7 +1041,7 @@ function renderLabDateManagement() {
       removeButton
     );
 
-    labDateManagementList.append(
+    currentMonthDetails.append(
       dateContainer
     );
   }
