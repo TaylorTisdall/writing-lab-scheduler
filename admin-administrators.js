@@ -101,7 +101,8 @@ async function loadAdministratorManagement() {
 
   const [
     sessionResult,
-    administratorsResult
+    administratorsResult,
+    consultantsResult
   ] = await Promise.all([
     administratorManagementClient.auth.getSession(),
 
@@ -117,7 +118,11 @@ async function loadAdministratorManagement() {
           "user_id"
         ].join(",")
       )
-      .order("name")
+      .order("name"),
+
+    administratorManagementClient
+      .from("consultants")
+      .select("id, email, user_id")
   ]);
 
   if (sessionResult.error) {
@@ -142,17 +147,30 @@ async function loadAdministratorManagement() {
     return;
   }
 
+  if (consultantsResult.error) {
+    showAdministratorManagementMessage(
+      `Consultant roles could not be checked: ${
+        consultantsResult.error.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
   const currentUserId =
     sessionResult.data.session?.user?.id;
 
   renderAdministratorManagement(
     administratorsResult.data,
+    consultantsResult.data,
     currentUserId
   );
 }
 
 function renderAdministratorManagement(
   administrators,
+  consultants,
   currentUserId
 ) {
   administratorManagementList.replaceChildren();
@@ -208,11 +226,19 @@ function renderAdministratorManagement(
         currentUserId
       );
 
+    const consultantRoleButton =
+      createConsultantRoleButton(
+        administrator,
+        consultants
+      );
+
     section.append(
       heading,
       summary,
       detailsForm,
       statusButton,
+      document.createTextNode(" "),
+      consultantRoleButton,
       document.createElement("hr")
     );
 
@@ -278,7 +304,8 @@ function createAdministratorDetailsForm(
   titleInput.required = true;
 
   button.type = "submit";
-  button.textContent = "Save administrator details";
+  button.textContent =
+    "Save administrator details";
 
   form.append(
     nameLabel,
@@ -427,6 +454,139 @@ function createAdministratorStatusButton(
         `${administrator.name}'s administrator access is now ${
           newStatus ? "active" : "inactive"
         }.`
+      );
+    }
+  );
+
+  return button;
+}
+
+function createConsultantRoleButton(
+  administrator,
+  consultants
+) {
+  const button =
+    document.createElement("button");
+
+  button.type = "button";
+
+  const administratorEmail =
+    String(
+      administrator.email || ""
+    ).trim().toLowerCase();
+
+  const existingConsultant =
+    consultants.find(
+      (consultant) => {
+        const consultantEmail =
+          String(
+            consultant.email || ""
+          ).trim().toLowerCase();
+
+        const sameUser =
+          administrator.user_id &&
+          consultant.user_id ===
+            administrator.user_id;
+
+        const sameEmail =
+          administratorEmail &&
+          consultantEmail ===
+            administratorEmail;
+
+        return sameUser || sameEmail;
+      }
+    );
+
+  if (existingConsultant) {
+    button.textContent =
+      "Consultant role already exists";
+
+    button.disabled = true;
+    return button;
+  }
+
+  if (!administrator.user_id) {
+    button.textContent =
+      "No website login available";
+
+    button.disabled = true;
+    return button;
+  }
+
+  if (!administratorEmail) {
+    button.textContent =
+      "No email address available";
+
+    button.disabled = true;
+    return button;
+  }
+
+  button.textContent = "Add consultant role";
+
+  button.addEventListener(
+    "click",
+    async () => {
+      const confirmed =
+        window.confirm(
+          `Add a consultant role for ${administrator.name}?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent =
+        "Adding consultant role...";
+
+      showAdministratorManagementMessage(
+        `Adding a consultant role for ${
+          administrator.name
+        }...`
+      );
+
+      const { error } =
+        await administratorManagementClient.rpc(
+          "admin_add_consultant_role",
+          {
+            p_email: administrator.email,
+            p_display_name:
+              administrator.name
+          }
+        );
+
+      if (error) {
+        button.disabled = false;
+        button.textContent =
+          "Add consultant role";
+
+        showAdministratorManagementMessage(
+          `The consultant role could not be added: ${
+            error.message
+          }`,
+          true
+        );
+
+        return;
+      }
+
+      await refreshAdministratorDisplays();
+
+      if (
+        typeof loadConsultantManagement ===
+        "function"
+      ) {
+        await loadConsultantManagement();
+      }
+
+      if (
+        typeof loadDashboard === "function"
+      ) {
+        await loadDashboard();
+      }
+
+      showAdministratorManagementMessage(
+        `${administrator.name} now also has a consultant role.`
       );
     }
   );
