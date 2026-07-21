@@ -1,3 +1,4 @@
+// Writing Lab administrator appointment controls.
 const appointmentManagementClient =
   window.writingLabAdminClient;
 
