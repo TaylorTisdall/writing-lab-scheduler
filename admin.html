@@ -335,7 +335,71 @@
           aria-live="polite"
         ></p>
       </section>
-      
+      <section aria-labelledby="shift-template-heading">
+        <h2 id="shift-template-heading">
+          Appointment shift times
+        </h2>
+
+        <p>
+          Regular and special-day shifts are always 30 minutes.
+          A date must also be open on the lab calendar before
+          students can book it.
+        </p>
+
+        <form id="create-shift-template-form">
+          <p>
+            <label for="new-shift-day">
+              Day of week
+            </label><br>
+
+            <select id="new-shift-day" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="new-shift-start-time">
+              Start time
+            </label><br>
+
+            <input
+              id="new-shift-start-time"
+              type="time"
+              required
+            >
+          </p>
+
+          <button
+            id="create-shift-template-button"
+            type="submit"
+          >
+            Add 30-minute shift
+          </button>
+        </form>
+
+        <p
+          id="create-shift-template-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Stored shift times</h3>
+
+        <div id="shift-template-management-list"></div>
+
+        <p
+          id="shift-template-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+ 
       <section aria-labelledby="consultant-list-heading">
         <h2 id="consultant-list-heading">
           Consultants
@@ -556,5 +620,6 @@
   <script src="admin-calendar.js"></script>
   <script src="admin-passwords.js"></script>
   <script src="admin-appointments.js"></script>
+  <script src="admin-shifts.js"></script>
 </body>
 </html>
