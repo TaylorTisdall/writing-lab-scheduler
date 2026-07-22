@@ -8,29 +8,73 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Writing Lab Consultant Schedule</title>
+  <title>Lamar Writing Lab Consultant Portal</title>
 
   <link rel="icon" href="data:,">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="branding.css">
+  <link rel="stylesheet" href="staff.css">
 </head>
 
-<body>
-  <main>
-    <h1>Writing Lab Consultant Schedule</h1>
+<body class="staff-page consultant-page">
+  <header class="site-header">
+    <h1>Lamar Writing Lab</h1>
 
+    <nav aria-label="Writing Lab navigation">
+      <a href="index.html">
+        Student scheduler
+      </a>
+
+      <a href="#consultant-content">
+        Consultant portal
+      </a>
+
+      <a href="admin.html">
+        Administrator portal
+      </a>
+    </nav>
+  </header>
+
+  <main
+    id="consultant-content"
+    class="page-grid"
+  >
     <section
       id="login-section"
+      class="card primary-card login-card"
       aria-labelledby="login-heading"
     >
-      <h2 id="login-heading">Consultant sign in</h2>
+      <h2 id="login-heading">
+        Consultant sign in
+      </h2>
 
-      <p>
-        Sign in with the consultant account provided by the
+      <p class="section-introduction">
+        Sign in with the consultant account provided by a Lamar
         Writing Lab administrator.
       </p>
 
       <form id="login-form">
         <p>
-          <label for="email">HISD email address</label><br>
+          <label for="email">
+            Houston ISD email address
+          </label>
 
           <input
             id="email"
@@ -42,7 +86,9 @@
         </p>
 
         <p>
-          <label for="password">Password</label><br>
+          <label for="password">
+            Password
+          </label>
 
           <input
             id="password"
@@ -61,63 +107,122 @@
 
     <section
       id="schedule-section"
+      class="consultant-dashboard"
       aria-labelledby="schedule-heading"
       hidden
     >
-      <h2 id="schedule-heading">Weekly availability</h2>
+      <section
+        class="card availability-card"
+        aria-labelledby="schedule-heading"
+      >
+        <h2 id="schedule-heading">
+          Weekly availability
+        </h2>
 
-      <p id="welcome-message"></p>
-      <p id="school-year-message"></p>
+        <p
+          id="welcome-message"
+          class="signed-in-summary"
+        ></p>
 
-      <form id="schedule-form">
-        <fieldset>
-          <legend>
-            Select every 30-minute slot you can work each week
-          </legend>
+        <p id="school-year-message"></p>
 
-          <div id="shift-options"></div>
-        </fieldset>
+        <p class="section-introduction">
+          Select every 30-minute appointment slot you can work
+          during a normal week. Save again whenever your regular
+          availability changes.
+        </p>
+
+        <form id="schedule-form">
+          <fieldset>
+            <legend>
+              Weekly appointment slots
+            </legend>
+
+            <div id="shift-options"></div>
+          </fieldset>
+
+          <p>
+            <button id="save-button" type="submit">
+              Save availability
+            </button>
+          </p>
+        </form>
+      </section>
+
+      <section
+        class="card appointments-card"
+        aria-labelledby="upcoming-heading"
+      >
+        <h2 id="upcoming-heading">
+          Upcoming appointments
+        </h2>
 
         <p>
-          <button id="save-button" type="submit">
-            Save availability
-          </button>
+          Review appointments currently assigned to you.
+          Student information is provided only for managing the
+          scheduled Writing Lab visit.
         </p>
-      </form>
-<section aria-labelledby="upcoming-heading">
-  <h2 id="upcoming-heading">
-    Upcoming appointments
-  </h2>
 
-  <button
-    id="refresh-appointments-button"
-    type="button"
-  >
-    Refresh appointments
-  </button>
+        <button
+          id="refresh-appointments-button"
+          type="button"
+        >
+          Refresh appointments
+        </button>
 
-  <div id="appointment-list"></div>
+        <div id="appointment-list"></div>
 
-  <p
-    id="appointment-list-message"
-    role="status"
-    aria-live="polite"
-  ></p>
-</section>
-      <button id="sign-out-button" type="button">
-        Sign out
-      </button>
+        <p
+          id="appointment-list-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section
+        class="card account-card"
+        aria-labelledby="consultant-account-heading"
+      >
+        <h2 id="consultant-account-heading">
+          Consultant account
+        </h2>
+
+        <p>
+          Sign out when you have finished, especially on a shared
+          device.
+        </p>
+
+        <button id="sign-out-button" type="button">
+          Sign out
+        </button>
+      </section>
     </section>
 
     <p
       id="status-message"
+      class="page-message"
       role="status"
       aria-live="polite"
     ></p>
   </main>
 
+  <footer class="site-footer">
+    <p>
+      <strong>Lamar Writing Lab</strong>
+    </p>
+
+    <p>
+      Consultant scheduling portal
+    </p>
+
+    <p>
+      Student appointment information should be used only for
+      Writing Lab scheduling and visit preparation.
+    </p>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="consultant.js"></script>
-    <script src="consultant-appointments.js"></script>
+  <script src="consultant-appointments.js"></script>
 </body>
 </html>
