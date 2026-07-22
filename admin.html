@@ -8,28 +8,74 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Writing Lab Administration</title>
+  <title>Lamar Writing Lab Administration</title>
 
   <link rel="icon" href="data:,">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="branding.css">
+  <link rel="stylesheet" href="staff.css">
+  <link rel="stylesheet" href="admin.css">
 </head>
 
-<body>
-  <main>
-    <h1>Writing Lab Administration</h1>
+<body class="staff-page admin-page">
+  <header class="site-header">
+    <h1>Lamar Writing Lab</h1>
 
+    <nav aria-label="Writing Lab navigation">
+      <a href="index.html">
+        Student scheduler
+      </a>
+
+      <a href="consultant.html">
+        Consultant portal
+      </a>
+
+      <a href="#admin-content">
+        Administrator portal
+      </a>
+    </nav>
+  </header>
+
+  <main
+    id="admin-content"
+    class="page-grid"
+  >
     <section
       id="admin-login-section"
+      class="card primary-card login-card"
       aria-labelledby="admin-login-heading"
     >
       <h2 id="admin-login-heading">
         Administrator sign in
       </h2>
 
+      <p class="section-introduction">
+        Sign in with an active Lamar Writing Lab administrator
+        account.
+      </p>
+
       <form id="admin-login-form">
         <p>
           <label for="admin-email">
-            HISD email address
-          </label><br>
+            Houston ISD email address
+          </label>
 
           <input
             id="admin-email"
@@ -42,7 +88,7 @@
         <p>
           <label for="admin-password">
             Password
-          </label><br>
+          </label>
 
           <input
             id="admin-password"
@@ -52,360 +98,92 @@
           >
         </p>
 
-        <button id="admin-login-button" type="submit">
+        <button
+          id="admin-login-button"
+          type="submit"
+        >
           Sign in
         </button>
       </form>
     </section>
 
-    <section id="admin-dashboard" hidden>
-      <h2>Dashboard</h2>
-
-      <button id="refresh-dashboard-button" type="button">
-        Refresh dashboard
-      </button>
-
-      <section aria-labelledby="school-year-heading">
-        <h2 id="school-year-heading">
-          Active school year
+    <section
+      id="admin-dashboard"
+      class="admin-dashboard-grid"
+      aria-labelledby="admin-dashboard-heading"
+      hidden
+    >
+      <section
+        class="card primary-card admin-wide-card"
+        aria-labelledby="admin-dashboard-heading"
+      >
+        <h2 id="admin-dashboard-heading">
+          Administration dashboard
         </h2>
+
+        <p>
+          Manage appointments, consultants, administrators,
+          school years, and the lab calendar from this page.
+        </p>
+
+        <button
+          id="refresh-dashboard-button"
+          type="button"
+        >
+          Refresh dashboard
+        </button>
+
+        <h3 id="school-year-heading">
+          Active school year
+        </h3>
 
         <p id="school-year-summary"></p>
+        <p id="calendar-summary"></p>
       </section>
-      <section aria-labelledby="create-account-heading">
-        <h2 id="create-account-heading">
-          Create a Writing Lab account
+
+      <section
+        class="card admin-wide-card"
+        aria-labelledby="admin-appointments-heading"
+      >
+        <h2 id="admin-appointments-heading">
+          Upcoming appointments
         </h2>
 
         <p>
-          Create a consultant account, an administrator account,
-          or an account with both roles. Give the temporary password
-          directly to the account holder.
+          Review student appointments, retrieve booking
+          references, reassign consultants, or cancel an
+          appointment.
         </p>
 
-        <form id="create-account-form">
-          <p>
-            <label for="new-account-name">
-              Display name
-            </label><br>
+        <div id="admin-appointment-list"></div>
 
-            <input
-              id="new-account-name"
-              type="text"
-              maxlength="100"
-              required
-            >
-          </p>
+        <h3>Manage upcoming appointments</h3>
 
-          <p>
-            <label for="new-account-email">
-              HISD email address
-            </label><br>
-
-            <input
-              id="new-account-email"
-              type="email"
-              autocomplete="off"
-              required
-            >
-          </p>
-
-          <p>
-            <label for="new-account-type">
-              Account roles
-            </label><br>
-
-            <select id="new-account-type" required>
-              <option value="consultant">
-                Consultant only
-              </option>
-
-              <option value="administrator">
-                Administrator only
-              </option>
-
-              <option value="both">
-                Administrator and consultant
-              </option>
-            </select>
-          </p>
-
-          <p id="new-role-title-container" hidden>
-            <label for="new-role-title">
-              Administrator role title
-            </label><br>
-
-            <input
-              id="new-role-title"
-              type="text"
-              maxlength="100"
-              placeholder="For example: Sponsor or President"
-            >
-          </p>
-
-          <p>
-            <label for="new-account-password">
-              Temporary password
-            </label><br>
-
-            <input
-              id="new-account-password"
-              type="password"
-              autocomplete="new-password"
-              minlength="12"
-              required
-            ><br>
-
-            <small>
-              Use at least 12 characters.
-            </small>
-          </p>
-
-          <p>
-            <label for="confirm-account-password">
-              Confirm temporary password
-            </label><br>
-
-            <input
-              id="confirm-account-password"
-              type="password"
-              autocomplete="new-password"
-              minlength="12"
-              required
-            >
-          </p>
-
-          <button id="create-account-button" type="submit">
-            Create account
-          </button>
-        </form>
+        <div id="appointment-management-list"></div>
 
         <p
-          id="create-account-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-      </section>
-    <section aria-labelledby="reset-password-heading">
-        <h2 id="reset-password-heading">
-          Reset an account password
-        </h2>
-
-        <p>
-          Set a temporary password when a consultant or
-          administrator cannot access their account. They will
-          be required to replace it after signing in.
-        </p>
-
-        <form id="admin-reset-password-form">
-          <p>
-            <label for="reset-password-email">
-              Account email
-            </label><br>
-
-            <input
-              id="reset-password-email"
-              type="email"
-              required
-            >
-          </p>
-
-          <p>
-            <label for="reset-temporary-password">
-              New temporary password
-            </label><br>
-
-            <input
-              id="reset-temporary-password"
-              type="password"
-              autocomplete="new-password"
-              minlength="12"
-              required
-            >
-          </p>
-
-          <p>
-            <label for="confirm-reset-password">
-              Confirm temporary password
-            </label><br>
-
-            <input
-              id="confirm-reset-password"
-              type="password"
-              autocomplete="new-password"
-              minlength="12"
-              required
-            >
-          </p>
-
-          <button
-            id="admin-reset-password-button"
-            type="submit"
-          >
-            Reset password
-          </button>
-        </form>
-
-        <p
-          id="admin-reset-password-message"
+          id="appointment-management-message"
           role="status"
           aria-live="polite"
         ></p>
       </section>
 
-<section aria-labelledby="administrator-list-heading">
-        <h2 id="administrator-list-heading">
-          Administrators
-        </h2>
-
-        <div id="administrator-list"></div>
-        <h3>Grant administrator access to an existing account</h3>
-
-        <p>
-          Use this when the person already has a Writing Lab login,
-          such as a consultant becoming president.
-        </p>
-
-        <form id="promote-administrator-form">
-          <p>
-            <label for="promote-administrator-email">
-              Existing account email
-            </label><br>
-
-            <input
-              id="promote-administrator-email"
-              type="email"
-              required
-            >
-          </p>
-
-          <p>
-            <label for="promote-administrator-name">
-              Administrator display name
-            </label><br>
-
-            <input
-              id="promote-administrator-name"
-              type="text"
-              maxlength="100"
-              required
-            >
-          </p>
-
-          <p>
-            <label for="promote-administrator-title">
-              Role title
-            </label><br>
-
-            <input
-              id="promote-administrator-title"
-              type="text"
-              maxlength="100"
-              placeholder="For example: President or Sponsor"
-              required
-            >
-          </p>
-
-          <button
-            id="promote-administrator-button"
-            type="submit"
-          >
-            Grant administrator access
-          </button>
-        </form>
-
-        <p
-          id="promote-administrator-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-
-        <h3>Manage administrator roles</h3>
-
-        <div id="administrator-management-list"></div>
-
-        <p
-          id="administrator-management-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-        <p
-          id="administrator-list-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-      </section>
-      <section aria-labelledby="shift-template-heading">
-        <h2 id="shift-template-heading">
-          Appointment shift times
-        </h2>
-
-        <p>
-          Regular and special-day shifts are always 30 minutes.
-          A date must also be open on the lab calendar before
-          students can book it.
-        </p>
-
-        <form id="create-shift-template-form">
-          <p>
-            <label for="new-shift-day">
-              Day of week
-            </label><br>
-
-            <select id="new-shift-day" required>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-            </select>
-          </p>
-
-          <p>
-            <label for="new-shift-start-time">
-              Start time
-            </label><br>
-
-            <input
-              id="new-shift-start-time"
-              type="time"
-              required
-            >
-          </p>
-
-          <button
-            id="create-shift-template-button"
-            type="submit"
-          >
-            Add 30-minute shift
-          </button>
-        </form>
-
-        <p
-          id="create-shift-template-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-
-        <h3>Stored shift times</h3>
-
-        <div id="shift-template-management-list"></div>
-
-        <p
-          id="shift-template-management-message"
-          role="status"
-          aria-live="polite"
-        ></p>
-      </section>
- 
-      <section aria-labelledby="consultant-list-heading">
+      <section
+        class="card admin-wide-card"
+        aria-labelledby="consultant-list-heading"
+      >
         <h2 id="consultant-list-heading">
           Consultants
         </h2>
 
+        <p>
+          Update consultant names, active status, and weekly
+          availability. Deactivating a consultant preserves their
+          record and saved shifts.
+        </p>
+
         <div id="admin-consultant-list"></div>
+
         <h3>Manage consultants</h3>
 
         <div id="consultant-management-list"></div>
@@ -417,19 +195,26 @@
         ></p>
       </section>
 
-      <section aria-labelledby="calendar-heading">
+      <section
+        class="card admin-wide-card"
+        aria-labelledby="calendar-heading"
+      >
         <h2 id="calendar-heading">
           Lab calendar
         </h2>
 
-        <p id="calendar-summary"></p>
+        <p>
+          Manage school years, regular Monday–Wednesday dates,
+          holidays, and special lab dates.
+        </p>
+
         <h3>Create a school year</h3>
 
         <form id="create-school-year-form">
           <p>
             <label for="new-school-year-name">
               School year name
-            </label><br>
+            </label>
 
             <input
               id="new-school-year-name"
@@ -443,7 +228,7 @@
           <p>
             <label for="new-school-year-start">
               First student day
-            </label><br>
+            </label>
 
             <input
               id="new-school-year-start"
@@ -455,7 +240,7 @@
           <p>
             <label for="new-school-year-end">
               Last student day
-            </label><br>
+            </label>
 
             <input
               id="new-school-year-end"
@@ -464,7 +249,7 @@
             >
           </p>
 
-          <p>
+          <p class="checkbox-row">
             <label>
               <input
                 id="new-school-year-active"
@@ -502,14 +287,14 @@
 
         <p>
           Use this for a special Thursday or another exception.
-          Adding an existing date updates its note.
+          Adding an existing date updates its student-facing note.
         </p>
 
         <form id="add-lab-date-form">
           <p>
             <label for="add-lab-date-school-year">
               School year
-            </label><br>
+            </label>
 
             <select
               id="add-lab-date-school-year"
@@ -520,7 +305,7 @@
           <p>
             <label for="add-lab-date-value">
               Lab date
-            </label><br>
+            </label>
 
             <input
               id="add-lab-date-value"
@@ -531,8 +316,8 @@
 
           <p>
             <label for="add-lab-date-note">
-              Note (optional)
-            </label><br>
+              Student-facing note
+            </label>
 
             <input
               id="add-lab-date-note"
@@ -577,18 +362,361 @@
         ></p>
       </section>
 
-      <section aria-labelledby="admin-appointments-heading">
-        <h2 id="admin-appointments-heading">
-          Upcoming appointments
+      <section
+        class="card"
+        aria-labelledby="shift-template-heading"
+      >
+        <h2 id="shift-template-heading">
+          Appointment shift times
         </h2>
 
-        <div id="admin-appointment-list"></div>
-        <h3>Manage upcoming appointments</h3>
+        <p>
+          Regular and special-day shifts are always 30 minutes.
+          A date must also be open on the lab calendar before
+          students can book it.
+        </p>
 
-        <div id="appointment-management-list"></div>
+        <form id="create-shift-template-form">
+          <p>
+            <label for="new-shift-day">
+              Day of week
+            </label>
+
+            <select id="new-shift-day" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="new-shift-start-time">
+              Start time
+            </label>
+
+            <input
+              id="new-shift-start-time"
+              type="time"
+              required
+            >
+          </p>
+
+          <button
+            id="create-shift-template-button"
+            type="submit"
+          >
+            Add 30-minute shift
+          </button>
+        </form>
 
         <p
-          id="appointment-management-message"
+          id="create-shift-template-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Stored shift times</h3>
+
+        <div id="shift-template-management-list"></div>
+
+        <p
+          id="shift-template-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section
+        class="card"
+        aria-labelledby="create-account-heading"
+      >
+        <h2 id="create-account-heading">
+          Create a Writing Lab account
+        </h2>
+
+        <p>
+          Create a consultant account, administrator account, or
+          account with both roles. Give the temporary password
+          directly to the account holder.
+        </p>
+
+        <form id="create-account-form">
+          <p>
+            <label for="new-account-name">
+              Display name
+            </label>
+
+            <input
+              id="new-account-name"
+              type="text"
+              maxlength="100"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-account-email">
+              Houston ISD email address
+            </label>
+
+            <input
+              id="new-account-email"
+              type="email"
+              autocomplete="off"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="new-account-type">
+              Account roles
+            </label>
+
+            <select
+              id="new-account-type"
+              required
+            >
+              <option value="consultant">
+                Consultant only
+              </option>
+
+              <option value="administrator">
+                Administrator only
+              </option>
+
+              <option value="both">
+                Administrator and consultant
+              </option>
+            </select>
+          </p>
+
+          <p
+            id="new-role-title-container"
+            hidden
+          >
+            <label for="new-role-title">
+              Administrator role title
+            </label>
+
+            <input
+              id="new-role-title"
+              type="text"
+              maxlength="100"
+              placeholder="For example: Sponsor or President"
+            >
+          </p>
+
+          <p>
+            <label for="new-account-password">
+              Temporary password
+            </label>
+
+            <input
+              id="new-account-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+
+            <small>
+              Use at least 12 characters.
+            </small>
+          </p>
+
+          <p>
+            <label for="confirm-account-password">
+              Confirm temporary password
+            </label>
+
+            <input
+              id="confirm-account-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <button
+            id="create-account-button"
+            type="submit"
+          >
+            Create account
+          </button>
+        </form>
+
+        <p
+          id="create-account-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section
+        class="card admin-wide-card"
+        aria-labelledby="administrator-list-heading"
+      >
+        <h2 id="administrator-list-heading">
+          Administrators
+        </h2>
+
+        <p>
+          Administrator role titles and access can be maintained
+          here without using Supabase or GitHub.
+        </p>
+
+        <div id="administrator-list"></div>
+
+        <p
+          id="administrator-list-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>
+          Grant administrator access to an existing account
+        </h3>
+
+        <p>
+          Use this when the person already has a Writing Lab
+          login, such as a consultant becoming president.
+        </p>
+
+        <form id="promote-administrator-form">
+          <p>
+            <label for="promote-administrator-email">
+              Existing account email
+            </label>
+
+            <input
+              id="promote-administrator-email"
+              type="email"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="promote-administrator-name">
+              Administrator display name
+            </label>
+
+            <input
+              id="promote-administrator-name"
+              type="text"
+              maxlength="100"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="promote-administrator-title">
+              Role title
+            </label>
+
+            <input
+              id="promote-administrator-title"
+              type="text"
+              maxlength="100"
+              placeholder="For example: President or Sponsor"
+              required
+            >
+          </p>
+
+          <button
+            id="promote-administrator-button"
+            type="submit"
+          >
+            Grant administrator access
+          </button>
+        </form>
+
+        <p
+          id="promote-administrator-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <h3>Manage administrator roles</h3>
+
+        <div id="administrator-management-list"></div>
+
+        <p
+          id="administrator-management-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section
+        class="card"
+        aria-labelledby="reset-password-heading"
+      >
+        <h2 id="reset-password-heading">
+          Reset an account password
+        </h2>
+
+        <p>
+          Set a temporary password when a consultant or
+          administrator cannot access their account. They will
+          be required to replace it after signing in.
+        </p>
+
+        <form id="admin-reset-password-form">
+          <p>
+            <label for="reset-password-email">
+              Account email
+            </label>
+
+            <input
+              id="reset-password-email"
+              type="email"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="reset-temporary-password">
+              New temporary password
+            </label>
+
+            <input
+              id="reset-temporary-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <p>
+            <label for="confirm-reset-password">
+              Confirm temporary password
+            </label>
+
+            <input
+              id="confirm-reset-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required
+            >
+          </p>
+
+          <button
+            id="admin-reset-password-button"
+            type="submit"
+          >
+            Reset password
+          </button>
+        </form>
+
+        <p
+          id="admin-reset-password-message"
           role="status"
           aria-live="polite"
         ></p>
@@ -596,21 +724,48 @@
 
       <p
         id="admin-status-message"
+        class="page-message admin-wide-card"
         role="status"
         aria-live="polite"
       ></p>
 
-      <button id="admin-sign-out-button" type="button">
-        Sign out
-      </button>
+      <section
+        class="card admin-account-actions"
+        aria-labelledby="admin-account-heading"
+      >
+        <h2 id="admin-account-heading">
+          Administrator account
+        </h2>
+
+        <p>
+          Sign out when you have finished, especially on a shared
+          device.
+        </p>
+
+        <button
+          id="admin-sign-out-button"
+          type="button"
+        >
+          Sign out
+        </button>
+      </section>
     </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <strong>Lamar Writing Lab</strong>
+    </p>
 
     <p>
-      <a href="index.html">Student scheduler</a>
-      |
-      <a href="consultant.html">Consultant page</a>
+      Administrator portal
     </p>
-  </main>
+
+    <p>
+      Student and staff information should be used only for
+      Writing Lab administration.
+    </p>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="admin.js"></script>
