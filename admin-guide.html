@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Lamar Writing Lab Administrator Guide</title>
+
+  <link rel="icon" href="data:,">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="branding.css">
+  <link rel="stylesheet" href="staff.css">
+</head>
+
+<body class="staff-page">
+  <header class="site-header">
+    <h1>Lamar Writing Lab</h1>
+
+<nav aria-label="Writing Lab navigation">
+  <a href="index.html">
+    Student scheduler
+  </a>
+
+  <a href="consultant.html">
+    Consultant portal
+  </a>
+
+  <a href="#admin-content">
+    Administrator portal
+  </a>
+
+  <a href="admin-guide.html">
+    Administrator guide
+  </a>
+</nav>
+  </header>
+
+  <main
+    id="guide"
+    class="page-grid"
+  >
+    <section class="card primary-card">
+      <h2>Administrator guide</h2>
+
+      <p class="section-introduction">
+        Routine Writing Lab management should be completed through
+        the administrator portal. Administrators should not need
+        GitHub or Supabase for ordinary yearly operations.
+      </p>
+
+      <p>
+        Keep at least two active administrators whenever possible
+        so the organization is not dependent on one person.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Appointments</h2>
+
+      <ul>
+        <li>
+          Review upcoming student appointments and assigned
+          consultants.
+        </li>
+
+        <li>
+          Retrieve and copy a booking reference when a student
+          loses it.
+        </li>
+
+        <li>
+          Automatically reassign an appointment when another
+          eligible consultant is available.
+        </li>
+
+        <li>
+          Cancel an appointment and enter a clear reason when
+          appropriate.
+        </li>
+      </ul>
+
+      <p>
+        Confirm the student’s name and Houston ISD email address
+        before providing a lost booking reference.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Consultants</h2>
+
+      <ul>
+        <li>
+          Create consultant accounts from the administrator
+          portal.
+        </li>
+
+        <li>
+          Update display names and weekly shifts.
+        </li>
+
+        <li>
+          Deactivate consultants who are no longer serving.
+        </li>
+
+        <li>
+          Reactivate returning consultants without rebuilding
+          their record.
+        </li>
+      </ul>
+
+      <p>
+        Deactivation is generally preferable to deletion because
+        it preserves scheduling history and allows the consultant
+        to return later.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Accounts and roles</h2>
+
+      <ul>
+        <li>
+          Accounts may be consultant-only, administrator-only, or
+          have both roles.
+        </li>
+
+        <li>
+          A person with an existing login can later receive
+          administrator or consultant access.
+        </li>
+
+        <li>
+          New accounts receive a temporary password that must be
+          changed after the first sign-in.
+        </li>
+
+        <li>
+          Administrators can reset a forgotten password from the
+          portal.
+        </li>
+      </ul>
+
+      <p>
+        Give temporary passwords directly to account holders.
+        Never place passwords in public documents or shared
+        student materials.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Regular weekly schedule</h2>
+
+      <p>
+        The standard schedule currently contains two 30-minute
+        appointment slots on Monday, Tuesday, and Wednesday:
+      </p>
+
+      <ul>
+        <li>11:45 AM–12:15 PM</li>
+        <li>12:15 PM–12:45 PM</li>
+      </ul>
+
+      <p>
+        Shift times should be changed only when the Writing Lab’s
+        operating schedule changes. A stored shift cannot be
+        deleted while consultants are assigned to it.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Calendar and schedule changes</h2>
+
+      <ul>
+        <li>
+          Remove holidays and other closed days from the stored
+          lab calendar.
+        </li>
+
+        <li>
+          Add a special Thursday or another exception as an
+          individual lab date.
+        </li>
+
+        <li>
+          Include a student-facing note when special hours need
+          explanation.
+        </li>
+
+        <li>
+          Close one dated appointment slot when only part of a
+          normal lab period is available.
+        </li>
+
+        <li>
+          Reopen a dated slot when the exception is no longer
+          needed.
+        </li>
+      </ul>
+
+      <p>
+        Upcoming exceptions appear automatically on the student
+        scheduler within its 14-day booking window.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Starting a new school year</h2>
+
+      <ol>
+        <li>
+          Create the new school year using its first and last
+          student days.
+        </li>
+
+        <li>
+          Generate the regular Monday–Wednesday lab dates.
+        </li>
+
+        <li>
+          Remove holidays, testing days, and other dates when the
+          lab will be closed.
+        </li>
+
+        <li>
+          Add any known special dates or schedule notes.
+        </li>
+
+        <li>
+          Make the new school year active.
+        </li>
+
+        <li>
+          Confirm the correct year appears on the student and
+          consultant pages.
+        </li>
+
+        <li>
+          Confirm active consultants have the correct weekly
+          shifts.
+        </li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Leadership handoff</h2>
+
+      <ol>
+        <li>
+          Create the incoming administrator’s website account.
+        </li>
+
+        <li>
+          Confirm they can sign in and change their temporary
+          password.
+        </li>
+
+        <li>
+          Confirm they can see appointments, consultants, school
+          years, and calendar controls.
+        </li>
+
+        <li>
+          Have them practice creating and deactivating a temporary
+          account.
+        </li>
+
+        <li>
+          Keep the outgoing administrator active until the
+          incoming administrator confirms full access.
+        </li>
+
+        <li>
+          Deactivate the outgoing administrator when the handoff
+          is complete.
+        </li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Technical emergency access</h2>
+
+      <p>
+        Routine administrators do not need GitHub or Supabase.
+        However, at least one trusted long-term technical
+        custodian should retain access in case hosting, billing,
+        security, or database repairs are ever required.
+      </p>
+
+      <p>
+        Transfer access by inviting the custodian through the
+        services’ official collaborator or organization controls.
+        Do not share one person’s password.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Privacy and safety</h2>
+
+      <ul>
+        <li>
+          Use student information only for Writing Lab scheduling
+          and visit preparation.
+        </li>
+
+        <li>
+          Sign out after using the administrator portal on a
+          shared device.
+        </li>
+
+        <li>
+          Do not publish appointment lists, student emails,
+          booking references, or passwords.
+        </li>
+
+        <li>
+          Keep administrator access limited to people who
+          genuinely need it.
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <strong>Lamar Writing Lab</strong>
+    </p>
+
+    <p>
+      Administrator operations guide
+    </p>
+  </footer>
+</body>
+</html>
