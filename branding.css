@@ -1,0 +1,131 @@
+:root {
+  --lamar-maroon: #8b1e3f;
+  --lamar-maroon-soft: rgba(139, 30, 63, 0.65);
+}
+
+.site-header {
+  display: grid;
+  grid-template-columns:
+    minmax(80px, 1fr)
+    minmax(0, 720px)
+    minmax(80px, 1fr);
+  align-items: center;
+  column-gap: 1rem;
+  border-bottom:
+    4px solid var(--lamar-maroon);
+}
+
+.site-header::before,
+.site-header::after {
+  content: "";
+  display: block;
+  width: clamp(76px, 9vw, 112px);
+  aspect-ratio: 1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.site-header::before {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  justify-self: center;
+  background-image:
+    url("lamar-texans-logo.png");
+}
+
+.site-header::after {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  justify-self: center;
+  background-image:
+    url("lamar-bull-logo.png");
+}
+
+.site-header h1 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.site-header nav {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.card {
+  box-shadow:
+    inset 0 4px 0
+      var(--lamar-maroon-soft),
+    var(--shadow);
+}
+
+.primary-card {
+  box-shadow:
+    inset 0 6px 0
+      var(--lamar-maroon),
+    var(--shadow);
+}
+
+.site-footer {
+  border-top:
+    4px solid var(--lamar-maroon);
+}
+
+.site-header nav a:hover,
+button:hover,
+.staff-links a:hover {
+  border-color: var(--lamar-maroon);
+}
+
+a {
+  text-decoration-color:
+    var(--lamar-maroon);
+}
+
+.confirmation-card {
+  box-shadow:
+    inset 0 4px 0
+      var(--lamar-maroon-soft),
+    var(--shadow);
+}
+
+.notice-card {
+  box-shadow:
+    inset 0 4px 0
+      var(--lamar-maroon),
+    var(--shadow);
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    grid-template-columns:
+      62px minmax(0, 1fr) 62px;
+    column-gap: 0.55rem;
+  }
+
+  .site-header::before,
+  .site-header::after {
+    width: 58px;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    grid-template-columns:
+      44px minmax(0, 1fr) 44px;
+    column-gap: 0.35rem;
+  }
+
+  .site-header::before,
+  .site-header::after {
+    width: 42px;
+  }
+
+  .site-header h1 {
+    font-size: clamp(
+      1.55rem,
+      8vw,
+      2.15rem
+    );
+  }
+}
