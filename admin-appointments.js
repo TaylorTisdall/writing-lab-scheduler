@@ -65,32 +65,14 @@ async function loadAppointmentManagement() {
     "Loading upcoming appointments..."
   );
 
-  const today =
-    getChicagoDateForAppointments();
-
   const [
     appointmentsResult,
     shiftsResult,
     consultantsResult
   ] = await Promise.all([
-    appointmentManagementClient
-      .from("appointments")
-      .select(
-        [
-          "id",
-          "student_name",
-          "student_email",
-          "consultant_shift_id",
-          "appointment_date",
-          "appointment_start_time",
-          "booking_reference",
-          "status"
-        ].join(",")
-      )
-      .eq("status", "booked")
-      .gte("appointment_date", today)
-      .order("appointment_date")
-      .order("appointment_start_time"),
+    appointmentManagementClient.rpc(
+      "admin_get_upcoming_appointments"
+    ),
 
     appointmentManagementClient
       .from("consultant_shifts")
@@ -360,6 +342,7 @@ function copyTextWithSelection(text) {
     document.createElement("textarea");
 
   temporaryInput.value = text;
+
   temporaryInput.setAttribute(
     "readonly",
     ""
@@ -397,6 +380,7 @@ function createReassignAppointmentButton(
     document.createElement("button");
 
   button.type = "button";
+
   button.textContent =
     "Reassign automatically";
 
@@ -413,6 +397,7 @@ function createReassignAppointmentButton(
       }
 
       button.disabled = true;
+
       button.textContent =
         "Reassigning...";
 
@@ -430,6 +415,7 @@ function createReassignAppointmentButton(
         );
 
       button.disabled = false;
+
       button.textContent =
         "Reassign automatically";
 
@@ -462,6 +448,7 @@ function createCancelAppointmentButton(
     document.createElement("button");
 
   button.type = "button";
+
   button.textContent =
     "Cancel appointment";
 
@@ -490,6 +477,7 @@ function createCancelAppointmentButton(
       }
 
       button.disabled = true;
+
       button.textContent =
         "Cancelling...";
 
@@ -509,6 +497,7 @@ function createCancelAppointmentButton(
         );
 
       button.disabled = false;
+
       button.textContent =
         "Cancel appointment";
 
@@ -542,38 +531,6 @@ async function refreshAppointmentDisplays() {
   ) {
     await loadDashboard();
   }
-}
-
-function getChicagoDateForAppointments() {
-  const parts =
-    new Intl.DateTimeFormat(
-      "en-US",
-      {
-        timeZone: "America/Chicago",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-      }
-    ).formatToParts(new Date());
-
-  const values =
-    Object.fromEntries(
-      parts
-        .filter(
-          (part) =>
-            part.type !== "literal"
-        )
-        .map(
-          (part) => [
-            part.type,
-            part.value
-          ]
-        )
-    );
-
-  return `${
-    values.year
-  }-${values.month}-${values.day}`;
 }
 
 function formatManagedAppointmentDate(
