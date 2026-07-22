@@ -464,3 +464,67 @@ hr {
     animation: none !important;
   }
 }
+.student-booking-reference {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  padding: 1rem;
+  background: var(--white);
+  border: 3px solid var(--navy);
+  border-radius: 10px;
+}
+
+.student-booking-reference strong {
+  font-size: 1.1rem;
+}
+
+.student-booking-reference code {
+  display: block;
+  padding: 0.85rem;
+  background: var(--soft-blue);
+  border: 2px solid var(--navy);
+  border-radius: 7px;
+  color: var(--black);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+  font-size: clamp(
+    1rem,
+    3vw,
+    1.25rem
+  );
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.student-booking-reference button {
+  width: fit-content;
+}
+
+.booking-reference-warning {
+  margin: 1.25rem 0 0;
+  padding: 1rem;
+  background: #fff3c4;
+  border: 3px solid var(--lamar-maroon);
+  border-radius: 9px;
+  color: var(--black);
+  font-size: clamp(
+    1.15rem,
+    3vw,
+    1.4rem
+  );
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (max-width: 520px) {
+  .student-booking-reference button {
+    width: 100%;
+  }
+}
