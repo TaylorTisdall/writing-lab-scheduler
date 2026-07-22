@@ -133,24 +133,42 @@
       </form>
     </section>
 
-    <section
-      id="confirmation-section"
-      class="card confirmation-card"
-      aria-labelledby="confirmation-heading"
-      hidden
+<section
+  id="confirmation-section"
+  class="card confirmation-card"
+  aria-labelledby="confirmation-heading"
+  hidden
+>
+  <h2 id="confirmation-heading">
+    Appointment confirmed
+  </h2>
+
+  <p id="confirmation-message"></p>
+
+  <div class="student-booking-reference">
+    <strong>Your booking reference</strong>
+
+    <code id="booking-reference-value"></code>
+
+    <button
+      id="copy-booking-reference-button"
+      type="button"
     >
-      <h2 id="confirmation-heading">
-        Appointment confirmed
-      </h2>
+      Copy booking reference
+    </button>
 
-      <p id="confirmation-message"></p>
+    <p
+      id="copy-booking-reference-message"
+      role="status"
+      aria-live="polite"
+    ></p>
+  </div>
 
-      <p>
-        Save your booking reference. You will need it to view or
-        cancel your appointment.
-      </p>
-    </section>
-
+  <p class="booking-reference-warning">
+    SAVE YOUR BOOKING REFERENCE. YOU NEED IT TO VIEW OR CANCEL
+    YOUR APPOINTMENT. CONFIRMATION EMAILS ARE NOT CURRENTLY SENT.
+  </p>
+</section>
     <p
       id="booking-message"
       class="page-message"
