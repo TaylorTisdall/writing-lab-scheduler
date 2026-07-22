@@ -1,4 +1,4 @@
-// Writing Lab administrator appointment controls.
+// Lamar Writing Lab administrator appointment controls.
 const appointmentManagementClient =
   window.writingLabAdminClient;
 
@@ -83,6 +83,7 @@ async function loadAppointmentManagement() {
           "consultant_shift_id",
           "appointment_date",
           "appointment_start_time",
+          "booking_reference",
           "status"
         ].join(",")
       )
@@ -109,7 +110,9 @@ async function loadAppointmentManagement() {
   ];
 
   const failedResult =
-    results.find((result) => result.error);
+    results.find(
+      (result) => result.error
+    );
 
   if (failedResult) {
     showAppointmentManagementMessage(
@@ -180,6 +183,9 @@ function renderAppointmentManagement(
     const section =
       document.createElement("section");
 
+    section.className =
+      "managed-appointment";
+
     section.setAttribute(
       "aria-labelledby",
       `manage-appointment-${appointment.id}`
@@ -215,6 +221,17 @@ function renderAppointmentManagement(
         "Unknown consultant"
       }`;
 
+    const referenceContainer =
+      createBookingReferenceDisplay(
+        appointment
+      );
+
+    const actions =
+      document.createElement("div");
+
+    actions.className =
+      "appointment-actions";
+
     const reassignButton =
       createReassignAppointmentButton(
         appointment
@@ -225,14 +242,17 @@ function renderAppointmentManagement(
         appointment
       );
 
+    actions.append(
+      reassignButton,
+      cancelButton
+    );
+
     section.append(
       heading,
       studentSummary,
       consultantSummary,
-      reassignButton,
-      document.createTextNode(" "),
-      cancelButton,
-      document.createElement("hr")
+      referenceContainer,
+      actions
     );
 
     appointmentManagementList.append(
@@ -247,6 +267,127 @@ function renderAppointmentManagement(
         : "appointments"
     } available to manage.`
   );
+}
+
+function createBookingReferenceDisplay(
+  appointment
+) {
+  const container =
+    document.createElement("div");
+
+  container.className =
+    "admin-booking-reference";
+
+  const label =
+    document.createElement("strong");
+
+  label.textContent =
+    "Booking reference";
+
+  const code =
+    document.createElement("code");
+
+  code.textContent =
+    appointment.booking_reference;
+
+  const copyButton =
+    document.createElement("button");
+
+  copyButton.type = "button";
+  copyButton.textContent =
+    "Copy booking reference";
+
+  copyButton.addEventListener(
+    "click",
+    async () => {
+      const copied =
+        await copyBookingReference(
+          appointment.booking_reference
+        );
+
+      if (copied) {
+        copyButton.textContent = "Copied";
+
+        showAppointmentManagementMessage(
+          `The booking reference for ${appointment.student_name} was copied.`
+        );
+
+        setTimeout(
+          () => {
+            copyButton.textContent =
+              "Copy booking reference";
+          },
+          2000
+        );
+
+        return;
+      }
+
+      showAppointmentManagementMessage(
+        "The booking reference could not be copied automatically. Select and copy the displayed reference.",
+        true
+      );
+    }
+  );
+
+  container.append(
+    label,
+    code,
+    copyButton
+  );
+
+  return container;
+}
+
+async function copyBookingReference(
+  bookingReference
+) {
+  try {
+    await navigator.clipboard.writeText(
+      bookingReference
+    );
+
+    return true;
+  } catch (error) {
+    return copyTextWithSelection(
+      bookingReference
+    );
+  }
+}
+
+function copyTextWithSelection(text) {
+  const temporaryInput =
+    document.createElement("textarea");
+
+  temporaryInput.value = text;
+  temporaryInput.setAttribute(
+    "readonly",
+    ""
+  );
+
+  temporaryInput.style.position =
+    "fixed";
+
+  temporaryInput.style.opacity = "0";
+
+  document.body.append(
+    temporaryInput
+  );
+
+  temporaryInput.select();
+
+  let copied = false;
+
+  try {
+    copied =
+      document.execCommand("copy");
+  } catch (error) {
+    copied = false;
+  }
+
+  temporaryInput.remove();
+
+  return copied;
 }
 
 function createReassignAppointmentButton(
@@ -396,7 +537,9 @@ function createCancelAppointmentButton(
 async function refreshAppointmentDisplays() {
   await loadAppointmentManagement();
 
-  if (typeof loadDashboard === "function") {
+  if (
+    typeof loadDashboard === "function"
+  ) {
     await loadDashboard();
   }
 }
@@ -437,11 +580,14 @@ function formatManagedAppointmentDate(
   dateText
 ) {
   const date =
-    new Date(`${dateText}T00:00:00`);
+    new Date(
+      `${dateText}T12:00:00Z`
+    );
 
   return new Intl.DateTimeFormat(
     "en-US",
     {
+      timeZone: "UTC",
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -475,6 +621,7 @@ function formatManagedAppointmentTime(
 
 function clearAppointmentManagement() {
   appointmentManagementList.replaceChildren();
+
   appointmentManagementMessage.textContent =
     "";
 }
