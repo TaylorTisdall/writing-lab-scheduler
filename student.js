@@ -4,50 +4,93 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kbnl6bHphYXJ6b3pibXFoZWN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNTU5NzgsImV4cCI6MjA5OTczMTk3OH0.FYJgBDOhmqg516ApoPAqWezMIaSIHseoKCcUcU6m-To";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-window.writingLabSupabaseClient = supabaseClient;
+window.writingLabSupabaseClient =
+  supabaseClient;
+
 const reloadButton =
-  document.getElementById("reload-button");
+  document.getElementById(
+    "reload-button"
+  );
 
 const slotOptions =
-  document.getElementById("slot-options");
+  document.getElementById(
+    "slot-options"
+  );
 
 const availabilityMessage =
-  document.getElementById("availability-message");
+  document.getElementById(
+    "availability-message"
+  );
 
 const bookingSection =
-  document.getElementById("booking-section");
+  document.getElementById(
+    "booking-section"
+  );
 
 const bookingForm =
-  document.getElementById("booking-form");
+  document.getElementById(
+    "booking-form"
+  );
 
 const selectedTime =
-  document.getElementById("selected-time");
+  document.getElementById(
+    "selected-time"
+  );
 
 const studentNameInput =
-  document.getElementById("student-name");
+  document.getElementById(
+    "student-name"
+  );
 
 const studentEmailInput =
-  document.getElementById("student-email");
+  document.getElementById(
+    "student-email"
+  );
 
 const bookButton =
-  document.getElementById("book-button");
+  document.getElementById(
+    "book-button"
+  );
 
 const bookingMessage =
-  document.getElementById("booking-message");
+  document.getElementById(
+    "booking-message"
+  );
 
 const confirmationSection =
-  document.getElementById("confirmation-section");
+  document.getElementById(
+    "confirmation-section"
+  );
 
 const confirmationMessage =
-  document.getElementById("confirmation-message");
+  document.getElementById(
+    "confirmation-message"
+  );
+
+const bookingReferenceValue =
+  document.getElementById(
+    "booking-reference-value"
+  );
+
+const copyBookingReferenceButton =
+  document.getElementById(
+    "copy-booking-reference-button"
+  );
+
+const copyBookingReferenceMessage =
+  document.getElementById(
+    "copy-booking-reference-message"
+  );
 
 let availableSlots = [];
 let selectedSlot = null;
+let currentBookingReference = "";
 
 reloadButton.addEventListener(
   "click",
@@ -57,6 +100,11 @@ reloadButton.addEventListener(
 bookingForm.addEventListener(
   "submit",
   bookAppointment
+);
+
+copyBookingReferenceButton.addEventListener(
+  "click",
+  copyCurrentBookingReference
 );
 
 loadAvailability();
@@ -80,7 +128,9 @@ async function loadAvailability() {
 
   if (error) {
     showAvailabilityMessage(
-      `Availability could not be loaded: ${error.message}`,
+      `Availability could not be loaded: ${
+        error.message
+      }`,
       true
     );
 
@@ -98,6 +148,7 @@ async function loadAvailability() {
   }
 
   renderSlots();
+
   showAvailabilityMessage(
     "Select an available appointment time."
   );
@@ -107,55 +158,80 @@ function renderSlots() {
   let currentDate = "";
   let dateFieldset = null;
 
-  availableSlots.forEach((slot, index) => {
-    if (slot.appointment_date !== currentDate) {
-      currentDate = slot.appointment_date;
+  availableSlots.forEach(
+    (slot, index) => {
+      if (
+        slot.appointment_date !==
+        currentDate
+      ) {
+        currentDate =
+          slot.appointment_date;
 
-      dateFieldset =
-        document.createElement("fieldset");
+        dateFieldset =
+          document.createElement(
+            "fieldset"
+          );
 
-      const legend =
-        document.createElement("legend");
+        const legend =
+          document.createElement(
+            "legend"
+          );
 
-      legend.textContent =
-        formatDate(slot.appointment_date);
+        legend.textContent =
+          formatDate(
+            slot.appointment_date
+          );
 
-      dateFieldset.append(legend);
-      slotOptions.append(dateFieldset);
+        dateFieldset.append(legend);
+        slotOptions.append(dateFieldset);
+      }
+
+      const optionContainer =
+        document.createElement("p");
+
+      const radio =
+        document.createElement("input");
+
+      radio.type = "radio";
+      radio.name = "appointment-slot";
+      radio.id =
+        `appointment-slot-${index}`;
+
+      radio.value = String(index);
+
+      radio.addEventListener(
+        "change",
+        () => {
+          selectSlot(index);
+        }
+      );
+
+      const label =
+        document.createElement("label");
+
+      label.htmlFor = radio.id;
+
+      label.textContent =
+        `${formatTimeRange(
+          slot.start_time,
+          slot.duration_minutes
+        )} — Available`;
+
+      optionContainer.append(
+        radio,
+        label
+      );
+
+      dateFieldset.append(
+        optionContainer
+      );
     }
-
-    const optionContainer =
-      document.createElement("p");
-
-    const radio =
-      document.createElement("input");
-
-    radio.type = "radio";
-    radio.name = "appointment-slot";
-    radio.id = `appointment-slot-${index}`;
-    radio.value = String(index);
-
-    radio.addEventListener("change", () => {
-      selectSlot(index);
-    });
-
-    const label =
-      document.createElement("label");
-
-    label.htmlFor = radio.id;
-    label.textContent =
-      ` ${formatTimeRange(
-        slot.start_time,
-        slot.duration_minutes
-      )} — Available`;
-
-    optionContainer.append(radio, label);
-    dateFieldset.append(optionContainer);
-  });
+  );
 }
 
 function selectSlot(index) {
-  selectedSlot = availableSlots[index];
+  selectedSlot =
+    availableSlots[index];
 
   selectedTime.textContent =
     `${formatDate(
@@ -168,6 +244,8 @@ function selectSlot(index) {
   confirmationSection.hidden = true;
   bookingSection.hidden = false;
   bookingMessage.textContent = "";
+
+  clearBookingReference();
 
   studentNameInput.focus();
 }
@@ -186,7 +264,10 @@ async function bookAppointment(event) {
 
   bookButton.disabled = true;
   bookButton.textContent = "Booking...";
-  showBookingMessage("Booking your appointment...");
+
+  showBookingMessage(
+    "Booking your appointment..."
+  );
 
   const { data, error } =
     await supabaseClient.rpc(
@@ -207,11 +288,14 @@ async function bookAppointment(event) {
     );
 
   bookButton.disabled = false;
-  bookButton.textContent = "Book appointment";
+  bookButton.textContent =
+    "Book appointment";
 
   if (error) {
     showBookingMessage(
-      `The appointment could not be booked: ${error.message}`,
+      `The appointment could not be booked: ${
+        error.message
+      }`,
       true
     );
 
@@ -221,15 +305,22 @@ async function bookAppointment(event) {
 
   const confirmation = data[0];
 
+  currentBookingReference =
+    confirmation.booking_reference;
+
   confirmationMessage.textContent =
     `${formatDate(
       confirmation.appointment_date
     )}, ${formatTimeRange(
       confirmation.start_time,
       confirmation.duration_minutes
-    )}. Booking reference: ${
-      confirmation.booking_reference
-    }`;
+    )}.`;
+
+  bookingReferenceValue.textContent =
+    currentBookingReference;
+
+  copyBookingReferenceMessage.textContent =
+    "";
 
   bookingForm.reset();
   bookingSection.hidden = true;
@@ -239,14 +330,131 @@ async function bookAppointment(event) {
     "Your appointment was successfully booked."
   );
 
+  confirmationSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  copyBookingReferenceButton.focus();
+
   await loadAvailability();
+}
+
+async function copyCurrentBookingReference() {
+  if (!currentBookingReference) {
+    showCopyBookingReferenceMessage(
+      "No booking reference is available to copy.",
+      true
+    );
+
+    return;
+  }
+
+  let copied = false;
+
+  try {
+    await navigator.clipboard.writeText(
+      currentBookingReference
+    );
+
+    copied = true;
+  } catch (error) {
+    copied =
+      copyBookingReferenceFallback(
+        currentBookingReference
+      );
+  }
+
+  if (!copied) {
+    showCopyBookingReferenceMessage(
+      "The reference could not be copied automatically. Select the displayed reference and copy it manually.",
+      true
+    );
+
+    return;
+  }
+
+  copyBookingReferenceButton.textContent =
+    "Booking reference copied";
+
+  showCopyBookingReferenceMessage(
+    "Copied. Save the reference somewhere you can find it later."
+  );
+
+  setTimeout(
+    () => {
+      copyBookingReferenceButton.textContent =
+        "Copy booking reference";
+    },
+    2500
+  );
+}
+
+function copyBookingReferenceFallback(text) {
+  const temporaryInput =
+    document.createElement("textarea");
+
+  temporaryInput.value = text;
+
+  temporaryInput.setAttribute(
+    "readonly",
+    ""
+  );
+
+  temporaryInput.style.position =
+    "fixed";
+
+  temporaryInput.style.opacity = "0";
+
+  document.body.append(
+    temporaryInput
+  );
+
+  temporaryInput.select();
+
+  let copied = false;
+
+  try {
+    copied =
+      document.execCommand("copy");
+  } catch (error) {
+    copied = false;
+  }
+
+  temporaryInput.remove();
+
+  return copied;
+}
+
+function clearBookingReference() {
+  currentBookingReference = "";
+  bookingReferenceValue.textContent = "";
+  copyBookingReferenceMessage.textContent =
+    "";
+
+  copyBookingReferenceButton.textContent =
+    "Copy booking reference";
+}
+
+function showCopyBookingReferenceMessage(
+  message,
+  isError = false
+) {
+  copyBookingReferenceMessage.textContent =
+    message;
+
+  copyBookingReferenceMessage.setAttribute(
+    "role",
+    isError ? "alert" : "status"
+  );
 }
 
 function showAvailabilityMessage(
   message,
   isError = false
 ) {
-  availabilityMessage.textContent = message;
+  availabilityMessage.textContent =
+    message;
 
   availabilityMessage.setAttribute(
     "role",
@@ -258,7 +466,8 @@ function showBookingMessage(
   message,
   isError = false
 ) {
-  bookingMessage.textContent = message;
+  bookingMessage.textContent =
+    message;
 
   bookingMessage.setAttribute(
     "role",
@@ -268,11 +477,14 @@ function showBookingMessage(
 
 function formatDate(dateText) {
   const date =
-    new Date(`${dateText}T00:00:00`);
+    new Date(
+      `${dateText}T12:00:00Z`
+    );
 
   return new Intl.DateTimeFormat(
     "en-US",
     {
+      timeZone: "UTC",
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -295,9 +507,11 @@ function formatTimeRange(
   const endMinutes =
     startMinutes + durationMinutes;
 
-  return `${formatMinutes(startMinutes)}–${
-    formatMinutes(endMinutes)
-  }`;
+  return `${formatMinutes(
+    startMinutes
+  )}–${formatMinutes(
+    endMinutes
+  )}`;
 }
 
 function formatMinutes(totalMinutes) {
@@ -305,7 +519,9 @@ function formatMinutes(totalMinutes) {
     totalMinutes % (24 * 60);
 
   const hour24 =
-    Math.floor(normalizedMinutes / 60);
+    Math.floor(
+      normalizedMinutes / 60
+    );
 
   const minute =
     normalizedMinutes % 60;
@@ -316,8 +532,7 @@ function formatMinutes(totalMinutes) {
   const hour12 =
     hour24 % 12 || 12;
 
-  return `${hour12}:${String(minute).padStart(
-    2,
-    "0"
-  )} ${period}`;
+  return `${hour12}:${String(
+    minute
+  ).padStart(2, "0")} ${period}`;
 }
