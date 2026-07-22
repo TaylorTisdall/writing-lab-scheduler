@@ -8,23 +8,62 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Houston ISD Writing Lab</title>
+  <title>Lamar Writing Lab</title>
 
   <link rel="icon" href="data:,">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-  <main>
-    <h1>Houston ISD Writing Lab</h1>
+<body class="student-page">
+  <header class="site-header">
+    <h1>Lamar Writing Lab</h1>
 
-    <section aria-labelledby="appointments-heading">
+    <nav aria-label="Student scheduler navigation">
+      <a href="#book-appointment">
+        Book an appointment
+      </a>
+
+      <a href="#manage-appointment">
+        View or cancel
+      </a>
+
+      <a href="#staff-access">
+        Staff access
+      </a>
+    </nav>
+  </header>
+
+  <main class="page-grid">
+    <section
+      id="book-appointment"
+      class="card primary-card"
+      aria-labelledby="appointments-heading"
+    >
       <h2 id="appointments-heading">
-        Schedule an appointment
+        Book an appointment
       </h2>
 
-      <p>
-        Choose an available 30-minute time. The system will
-        automatically assign an available consultant.
+      <p class="section-introduction">
+        Choose an available 30-minute time. You do not need to
+        select a consultant—the scheduler will assign an available
+        consultant automatically.
       </p>
 
       <button id="reload-button" type="button">
@@ -42,6 +81,7 @@
 
     <section
       id="booking-section"
+      class="card"
       aria-labelledby="booking-heading"
       hidden
     >
@@ -55,7 +95,7 @@
         <p>
           <label for="student-name">
             Your name
-          </label><br>
+          </label>
 
           <input
             id="student-name"
@@ -70,7 +110,7 @@
         <p>
           <label for="student-email">
             Houston ISD email address
-          </label><br>
+          </label>
 
           <input
             id="student-email"
@@ -81,8 +121,8 @@
           >
         </p>
 
-        <p>
-          Use your Houston ISD email address. The system checks
+        <p class="form-help">
+          Use your Houston ISD email address. The scheduler checks
           the email format but does not send a verification email.
         </p>
 
@@ -94,6 +134,7 @@
 
     <section
       id="confirmation-section"
+      class="card confirmation-card"
       aria-labelledby="confirmation-heading"
       hidden
     >
@@ -104,32 +145,38 @@
       <p id="confirmation-message"></p>
 
       <p>
-        Save your booking reference. You will need it if you
+        Save your booking reference. You will need it to view or
         cancel your appointment.
       </p>
     </section>
 
     <p
       id="booking-message"
+      class="page-message"
       role="status"
       aria-live="polite"
     ></p>
 
-    <section aria-labelledby="cancellation-heading">
+    <section
+      id="manage-appointment"
+      class="card"
+      aria-labelledby="cancellation-heading"
+    >
       <h2 id="cancellation-heading">
-        Cancel an appointment
+        View or cancel an appointment
       </h2>
 
-      <p>
-        Enter the booking reference and Houston ISD email used
-        for the appointment.
+      <p class="section-introduction">
+        Enter the booking reference and Houston ISD email address
+        used for the appointment. You will see the appointment
+        details before deciding whether to cancel.
       </p>
 
       <form id="cancellation-form">
         <p>
           <label for="cancellation-reference">
             Booking reference
-          </label><br>
+          </label>
 
           <input
             id="cancellation-reference"
@@ -144,7 +191,7 @@
         <p>
           <label for="cancellation-email">
             Houston ISD email address
-          </label><br>
+          </label>
 
           <input
             id="cancellation-email"
@@ -156,9 +203,27 @@
         </p>
 
         <button id="cancel-button" type="submit">
-          Cancel appointment
+          Find appointment
         </button>
       </form>
+
+      <div
+        id="appointment-lookup-result"
+        class="appointment-result"
+        hidden
+      >
+        <h3>Appointment details</h3>
+
+        <p id="appointment-lookup-summary"></p>
+
+        <button
+          id="confirm-cancellation-button"
+          type="button"
+          hidden
+        >
+          Cancel this appointment
+        </button>
+      </div>
 
       <p
         id="cancellation-message"
@@ -167,17 +232,79 @@
       ></p>
     </section>
 
-    <hr>
+    <section
+      id="schedule-changes-section"
+      class="card notice-card"
+      aria-labelledby="schedule-changes-heading"
+      hidden
+    >
+      <h2 id="schedule-changes-heading">
+        Upcoming schedule changes
+      </h2>
+
+      <div id="schedule-changes-list"></div>
+
+      <p
+        id="schedule-changes-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+    </section>
+
+    <section
+      id="staff-access"
+      class="card staff-card"
+      aria-labelledby="staff-access-heading"
+    >
+      <h2 id="staff-access-heading">
+        Consultants and administrators
+      </h2>
+
+      <p>
+        Consultants and administrators, use the appropriate staff
+        page below. Staff pages open in a new tab for easier access
+        outside the embedded scheduler.
+      </p>
+
+      <div class="staff-links">
+        <a
+          href="consultant.html"
+          target="_blank"
+          rel="noopener"
+        >
+          Consultant sign in
+        </a>
+
+        <a
+          href="admin.html"
+          target="_blank"
+          rel="noopener"
+        >
+          Administrator sign in
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <strong>Lamar Writing Lab</strong>
+    </p>
+
+    <p id="active-school-year">
+      Loading active school year...
+    </p>
 
     <p>
-      <a href="consultant.html">
-        Consultant sign in
-      </a>
+      Appointment information is used only to schedule and manage
+      Writing Lab visits. Students should use their Houston ISD
+      email address.
     </p>
-  </main>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="student.js"></script>
   <script src="cancel.js"></script>
+  <script src="schedule-changes.js"></script>
 </body>
 </html>
