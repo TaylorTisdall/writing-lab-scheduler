@@ -418,7 +418,8 @@ function renderSchoolYearManagement() {
 
       section.append(generatorMessage);
     }
-  if (
+
+    if (
       !schoolYear.active &&
       dateCount === 0
     ) {
@@ -432,6 +433,7 @@ function renderSchoolYearManagement() {
         deleteButton
       );
     }
+
     section.append(
       document.createElement("hr")
     );
@@ -653,14 +655,14 @@ function createGenerateDatesButton(
 
   button.type = "button";
   button.textContent =
-    "Generate Monday–Wednesday dates";
+    "Generate Monday–Wednesday–Friday dates";
 
   button.addEventListener(
     "click",
     async () => {
       const confirmed =
         window.confirm(
-          `Generate every Monday, Tuesday, and Wednesday in ${schoolYear.name}? This includes holidays, which must be removed afterward.`
+          `Generate every Monday, Wednesday, and Friday in ${schoolYear.name}? This includes holidays, which must be removed afterward.`
         );
 
       if (!confirmed) {
@@ -686,7 +688,7 @@ function createGenerateDatesButton(
 
       button.disabled = false;
       button.textContent =
-        "Generate Monday–Wednesday dates";
+        "Generate Monday–Wednesday–Friday dates";
 
       if (error) {
         showSchoolYearManagementMessage(
@@ -709,6 +711,7 @@ function createGenerateDatesButton(
 
   return button;
 }
+
 function createDeleteSchoolYearButton(
   schoolYear
 ) {
@@ -929,7 +932,7 @@ function renderLabDateManagement() {
         labDate.lab_date
       );
 
-     if (monthHeadingText !== currentMonth) {
+    if (monthHeadingText !== currentMonth) {
       currentMonth = monthHeadingText;
 
       const datesInMonth =
