@@ -72,6 +72,14 @@ Backend:
 - Secure PostgreSQL functions for privileged operations
 - Supabase Edge Functions for account creation and password reset
 
+Activity monitoring:
+
+- A cron-job.org scheduled keepalive calls a read-only public
+  database function every six hours
+- Keepalive failures are configured to notify the technical owner
+- This reduces the risk that the free Supabase project pauses for
+  inactivity, but it is not an uptime guarantee
+
 Supabase project reference:
 
 `mdnyzlzaarzozbmqhecz`
@@ -80,7 +88,8 @@ The publishable key in frontend JavaScript is intentionally public.
 It is protected by Row Level Security and secure database functions.
 
 Never place a Supabase secret key or service-role key in GitHub,
-frontend JavaScript, documentation, or Google Sites.
+frontend JavaScript, documentation, Google Sites, or the keepalive
+job.
 
 ## Current operating configuration
 
@@ -94,13 +103,33 @@ Regular Writing Lab schedule:
 
 - Monday, 11:45 AM–12:15 PM
 - Monday, 12:15 PM–12:45 PM
-- Tuesday, 11:45 AM–12:15 PM
-- Tuesday, 12:15 PM–12:45 PM
 - Wednesday, 11:45 AM–12:15 PM
 - Wednesday, 12:15 PM–12:45 PM
+- Friday, 11:45 AM–12:15 PM
+- Friday, 12:15 PM–12:45 PM
 
 The stored lab calendar contains eligible school dates rather than
-automatically treating every Monday–Wednesday as open.
+automatically treating every Monday–Wednesday–Friday as open.
+
+The following Fridays are excluded according to the revised HISD
+2026–2027 calendar:
+
+- October 9, 2026 — staff professional development
+- November 6, 2026 — staff professional development
+- November 27, 2026 — recess
+- December 25, 2026 — recess
+- January 1, 2027 — holiday
+- March 12, 2027 — recess
+- March 26, 2027 — recess
+- April 16, 2027 — staff professional development
+
+These exclusions apply only to 2026–2027. For every later school
+year, compare generated dates with the current official HISD
+calendar before opening student booking.
+
+Future Tuesday lab dates were removed when the operating schedule
+changed. Past Tuesday dates remain as historical records and do not
+create future availability.
 
 ## Important database tables
 
@@ -161,15 +190,20 @@ Use the administrator website:
 
 1. Create the new school year.
 2. Enter the first and last student days.
-3. Generate Monday–Wednesday dates.
-4. Remove holidays, testing days, and other closures.
-5. Add special dates and student-facing notes.
-6. Make the new school year active.
-7. Confirm the correct year appears on student and consultant pages.
-8. Confirm active consultants have the correct weekly shifts.
-9. Test one booking and cancellation before opening scheduling.
+3. Generate Monday–Wednesday–Friday dates.
+4. Compare the generated dates with the current official HISD
+   calendar.
+5. Remove holidays, testing days, professional-development days,
+   and other closures.
+6. Add special dates and student-facing notes.
+7. Make the new school year active.
+8. Confirm the correct year appears on student and consultant pages.
+9. Confirm active consultants have the correct weekly shifts.
+10. Test one booking and cancellation before opening scheduling.
 
-Do not generate dates twice for the same school year.
+Do not generate dates twice for the same school year. Regenerating
+after closed dates have been removed could restore dates that were
+intentionally deleted.
 
 ## Leadership transition
 
@@ -184,10 +218,14 @@ Before the current technical owner leaves:
    using official collaborator controls.
 6. Confirm the custodian can access GitHub Pages settings, Supabase
    tables, authentication, Edge Functions, and project settings.
-7. Enable appropriate account security, including two-factor
+7. Transfer access to the cron-job.org keepalive and its failure
+   notifications to the technical custodian.
+8. Confirm recent keepalive runs are successful and that the job
+   remains scheduled every six hours.
+9. Enable appropriate account security, including two-factor
    authentication where available.
-8. Do not transfer access by sharing personal passwords.
-9. Deactivate outgoing website access after the handoff is complete.
+10. Do not transfer access by sharing personal passwords.
+11. Deactivate outgoing website access after the handoff is complete.
 
 Routine organization officers and teachers do not need technical
 access unless they are also designated as technical custodians.
@@ -203,9 +241,14 @@ access unless they are also designated as technical custodians.
   confirming student information.
 - Booking opens 14 calendar days ahead.
 - Schedule-change notices cover the same upcoming window.
+- A free Supabase project can pause for inactivity.
+- The keepalive reduces this risk but does not guarantee uptime.
 
 Email notifications could be added later using an approved
 transactional email provider and a secure server-side function.
+
+An appropriate paid Supabase plan can be used if guaranteed
+protection from inactivity pausing is required.
 
 ## Repository files
 
@@ -250,7 +293,35 @@ Design:
 - `lamar-texans-logo.png`
 - `lamar-bull-logo.png`
 
+Documentation:
+
+- `admin-guide.html`
+- `TECHNICAL_HANDOFF.md`
+
 ## Recovery notes
+
+### Supabase inactivity pause
+
+If the website cannot load database information:
+
+1. Check the Supabase dashboard to determine whether the project is
+   paused.
+2. Restore or resume the project if necessary.
+3. Test the student scheduler and administrator sign-in.
+4. Check the cron-job.org keepalive execution history.
+5. Confirm that the job still runs every six hours.
+6. Confirm that failure notifications reach the current technical
+   custodian.
+7. Run a manual keepalive test and confirm that it succeeds.
+
+The keepalive uses only a public, read-only database operation. Never
+place a Supabase secret key or service-role key in the keepalive job.
+
+A keepalive reduces the chance of an inactivity pause on the free
+tier. Only an appropriate paid Supabase plan guarantees that the
+project will not pause for inactivity.
+
+### Database changes
 
 Saved SQL Editor queries are development history only. Deleting a
 saved query does not undo database changes that already ran.
