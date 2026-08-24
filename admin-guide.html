@@ -37,23 +37,23 @@
   <header class="site-header">
     <h1>Lamar Writing Lab</h1>
 
-<nav aria-label="Writing Lab navigation">
-  <a href="index.html">
-    Student scheduler
-  </a>
+    <nav aria-label="Writing Lab navigation">
+      <a href="index.html">
+        Student scheduler
+      </a>
 
-  <a href="consultant.html">
-    Consultant portal
-  </a>
+      <a href="consultant.html">
+        Consultant portal
+      </a>
 
-  <a href="#admin-content">
-    Administrator portal
-  </a>
+      <a href="admin.html">
+        Administrator portal
+      </a>
 
-  <a href="admin-guide.html">
-    Administrator guide
-  </a>
-</nav>
+      <a href="admin-guide.html">
+        Administrator guide
+      </a>
+    </nav>
   </header>
 
   <main
@@ -173,7 +173,7 @@
 
       <p>
         The standard schedule currently contains two 30-minute
-        appointment slots on Monday, Tuesday, and Wednesday:
+        appointment slots on Monday, Wednesday, and Friday:
       </p>
 
       <ul>
@@ -198,8 +198,8 @@
         </li>
 
         <li>
-          Add a special Thursday or another exception as an
-          individual lab date.
+          Add a special Tuesday, Thursday, or another exception
+          as an individual lab date.
         </li>
 
         <li>
@@ -234,7 +234,7 @@
         </li>
 
         <li>
-          Generate the regular Monday–Wednesday lab dates.
+          Generate the regular Monday–Wednesday–Friday lab dates.
         </li>
 
         <li>
@@ -312,6 +312,39 @@
         services’ official collaborator or organization controls.
         Do not share one person’s password.
       </p>
+
+      <h3>Supabase activity monitoring</h3>
+
+      <p>
+        The free Supabase project may pause after a period of low
+        activity. A scheduled keepalive currently checks the
+        database every six hours to help keep the project active.
+      </p>
+
+      <ul>
+        <li>
+          A trusted technical custodian must retain access to the
+          keepalive service and its failure notifications.
+        </li>
+
+        <li>
+          During a leadership handoff, confirm that recent
+          keepalive runs are successful and transfer ownership
+          securely if the technical custodian changes.
+        </li>
+
+        <li>
+          If the scheduler becomes unavailable, check whether the
+          Supabase project has paused, restore it if necessary,
+          and verify that the keepalive is running again.
+        </li>
+
+        <li>
+          The keepalive reduces the risk of an inactivity pause,
+          but only an appropriate paid Supabase plan guarantees
+          that the project will not pause for inactivity.
+        </li>
+      </ul>
     </section>
 
     <section class="card">
