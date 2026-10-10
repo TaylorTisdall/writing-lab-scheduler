@@ -77,7 +77,7 @@ async function loadConsultantManagement() {
     consultantManagementClient
       .from("consultant_shifts")
       .select(
-        "id, consultant_id, shift_template_id, school_year_id"
+        "id, consultant_id, shift_template_id, school_year_id, active"
       ),
 
     consultantManagementClient
@@ -206,7 +206,8 @@ function renderConsultantManagement(
                 assignment.consultant_id ===
                   consultant.id &&
                 assignment.school_year_id ===
-                  activeSchoolYear.id
+                  activeSchoolYear.id &&
+                assignment.active === true
             )
             .map(
               (assignment) =>
