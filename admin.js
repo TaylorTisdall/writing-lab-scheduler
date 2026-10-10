@@ -2,7 +2,7 @@ const ADMIN_SUPABASE_URL =
   "https://mdnyzlzaarzozbmqhecz.supabase.co";
 
 const ADMIN_SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoibWRueXpsemFhcnpvemJtcWhlY3oiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NDE1NTk3OCwiZXhwIjoyMDk5NzMxOTc4fQ.FYJgBDOhmqg516ApoPAqWezMIaSIHseoKCcUcU6m-To";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kbnl6bHphYXJ6b3pibXFoZWN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNTU5NzgsImV4cCI6MjA5OTczMTk3OH0.FYJgBDOhmqg516ApoPAqWezMIaSIHseoKCcUcU6m-To";
 
 const adminClient = window.supabase.createClient(
   ADMIN_SUPABASE_URL,
