@@ -2,7 +2,7 @@ const ADMIN_SUPABASE_URL =
   "https://mdnyzlzaarzozbmqhecz.supabase.co";
 
 const ADMIN_SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kbnl6bHphYXJ6b3pibXFoZWN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNTU5NzgsImV4cCI6MjA5OTczMTk3OH0.FYJgBDOhmqg516ApoPAqWezMIaSIHseoKCcUcU6m-To";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoibWRueXpsemFhcnpvemJtcWhlY3oiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NDE1NTk3OCwiZXhwIjoyMDk5NzMxOTc4fQ.FYJgBDOhmqg516ApoPAqWezMIaSIHseoKCcUcU6m-To";
 
 const adminClient = window.supabase.createClient(
   ADMIN_SUPABASE_URL,
@@ -61,10 +61,12 @@ const statusMessage =
   );
 
 loginForm.addEventListener("submit", signIn);
+
 refreshButton.addEventListener(
   "click",
   loadDashboard
 );
+
 signOutButton.addEventListener("click", signOut);
 
 initializeAdminPage();
@@ -191,7 +193,10 @@ async function verifyAdministrator() {
 
 async function loadDashboard() {
   refreshButton.disabled = true;
-  showStatus("Loading administrator dashboard...");
+
+  showStatus(
+    "Loading administrator dashboard..."
+  );
 
   const [
     consultantsResult,
@@ -204,14 +209,14 @@ async function loadDashboard() {
     adminClient
       .from("consultants")
       .select(
-  "id, name, email, user_id, active"
-)
+        "id, name, email, user_id, active"
+      )
       .order("name"),
 
     adminClient
       .from("consultant_shifts")
       .select(
-        "id, consultant_id, shift_template_id, school_year_id"
+        "id, consultant_id, shift_template_id, school_year_id, active"
       ),
 
     adminClient
@@ -295,7 +300,9 @@ async function loadDashboard() {
     consultantsResult.data
   );
 
-  showStatus("Administrator dashboard loaded.");
+  showStatus(
+    "Administrator dashboard loaded."
+  );
 }
 
 function renderSchoolYear(schoolYears) {
@@ -338,7 +345,8 @@ function renderConsultants(
       assignments.filter(
         (assignment) =>
           assignment.consultant_id ===
-          consultant.id
+            consultant.id &&
+          assignment.active === true
       ).length;
 
     const item =
@@ -357,7 +365,6 @@ function renderConsultants(
         ? "Login connected"
         : "No login"
     ];
-  
 
     item.textContent = labels.join(" — ");
     list.append(item);
@@ -380,23 +387,25 @@ function renderAppointments(
     return;
   }
 
-  const assignmentMap = new Map(
-    assignments.map(
-      (assignment) => [
-        assignment.id,
-        assignment.consultant_id
-      ]
-    )
-  );
+  const assignmentMap =
+    new Map(
+      assignments.map(
+        (assignment) => [
+          assignment.id,
+          assignment.consultant_id
+        ]
+      )
+    );
 
-  const consultantMap = new Map(
-    consultants.map(
-      (consultant) => [
-        consultant.id,
-        consultant.name
-      ]
-    )
-  );
+  const consultantMap =
+    new Map(
+      consultants.map(
+        (consultant) => [
+          consultant.id,
+          consultant.name
+        ]
+      )
+    );
 
   const list =
     document.createElement("ul");
