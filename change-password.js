@@ -7,7 +7,13 @@ const PASSWORD_SUPABASE_KEY =
 const passwordClient =
   window.supabase.createClient(
     PASSWORD_SUPABASE_URL,
-    PASSWORD_SUPABASE_KEY
+    PASSWORD_SUPABASE_KEY,
+    {
+      auth: {
+        detectSessionInUrl: true,
+        persistSession: true
+      }
+    }
   );
 
 const passwordForm =
@@ -48,60 +54,80 @@ passwordForm.addEventListener(
 initializePasswordPage();
 
 async function initializePasswordPage() {
+  passwordForm.hidden = true;
+
   showPasswordMessage(
     "Checking your account..."
   );
 
-  const { data, error } =
-    await passwordClient.auth.getSession();
+  try {
+    const { data, error } =
+      await passwordClient.auth.getSession();
 
-  if (error) {
-    showPasswordMessage(
-      `Your account could not be checked: ${
-        error.message
-      }`,
-      true
-    );
+    if (error) {
+      showPasswordMessage(
+        `Your account could not be checked: ${
+          error.message
+        }`,
+        true
+      );
 
-    return;
-  }
+      return;
+    }
 
-  if (!data.session) {
-    passwordIntroduction.textContent =
-      "You must sign in through the administrator or consultant page before changing your password.";
+    if (!data.session) {
+      passwordIntroduction.textContent =
+        "You must sign in through the administrator or consultant page, or open a valid password-recovery link, before changing your password.";
 
-    showPasswordMessage("");
-    return;
-  }
+      showPasswordMessage(
+        "No active Writing Lab sign-in was found.",
+        true
+      );
 
-  const { data: passwordChangeRequired, error: requirementError } =
-    await passwordClient.rpc(
+      return;
+    }
+
+    const {
+      data: passwordChangeRequired,
+      error: requirementError
+    } = await passwordClient.rpc(
       "must_change_my_password"
     );
 
-  if (requirementError) {
+    if (requirementError) {
+      showPasswordMessage(
+        `The password requirement could not be checked: ${
+          requirementError.message
+        }`,
+        true
+      );
+
+      return;
+    }
+
+    passwordForm.hidden = false;
+
+    if (passwordChangeRequired === true) {
+      passwordIntroduction.textContent =
+        "You must replace your temporary password before continuing.";
+    } else {
+      passwordIntroduction.textContent =
+        "Your account does not currently require a password change, but you may update it here.";
+    }
+
     showPasswordMessage(
-      `The password requirement could not be checked: ${
-        requirementError.message
+      "Enter and confirm your new password."
+    );
+
+    newPasswordInput.focus();
+  } catch (unexpectedError) {
+    showPasswordMessage(
+      `The password page could not be initialized: ${
+        getPasswordErrorMessage(unexpectedError)
       }`,
       true
     );
-
-    return;
   }
-
-  passwordForm.hidden = false;
-
-  if (passwordChangeRequired === true) {
-    passwordIntroduction.textContent =
-      "You must replace your temporary password before continuing.";
-  } else {
-    passwordIntroduction.textContent =
-      "Your account does not currently require a password change, but you may update it here.";
-  }
-
-  showPasswordMessage("");
-  newPasswordInput.focus();
 }
 
 async function changePassword(event) {
@@ -133,63 +159,92 @@ async function changePassword(event) {
     return;
   }
 
-  changePasswordButton.disabled = true;
-  changePasswordButton.textContent =
-    "Changing password...";
+  setPasswordFormBusy(true);
 
   showPasswordMessage(
     "Changing your password..."
   );
 
-  const { error: passwordError } =
-    await passwordClient.auth.updateUser({
-      password: newPassword
-    });
+  try {
+    const { error: passwordError } =
+      await passwordClient.auth.updateUser({
+        password: newPassword
+      });
 
-  if (passwordError) {
-    changePasswordButton.disabled = false;
-    changePasswordButton.textContent =
-      "Change password";
+    if (passwordError) {
+      showPasswordMessage(
+        `Your password could not be changed: ${
+          passwordError.message
+        }`,
+        true
+      );
 
+      return;
+    }
+
+    const { error: completionError } =
+      await passwordClient.rpc(
+        "complete_my_password_change"
+      );
+
+    if (completionError) {
+      passwordForm.reset();
+      passwordForm.hidden = true;
+
+      passwordIntroduction.textContent =
+        "Your account password was changed successfully.";
+
+      showPasswordMessage(
+        `Your password changed, but the Writing Lab password-change requirement could not be cleared: ${
+          completionError.message
+        }. An administrator may need to clear the requirement before you continue.`,
+        true
+      );
+
+      return;
+    }
+
+    passwordForm.reset();
+    passwordForm.hidden = true;
+
+    passwordIntroduction.textContent =
+      "Your password has been changed successfully.";
+
+    showPasswordMessage(
+      "Password change complete. You may now continue to the administrator or consultant page."
+    );
+  } catch (unexpectedError) {
     showPasswordMessage(
       `Your password could not be changed: ${
-        passwordError.message
+        getPasswordErrorMessage(unexpectedError)
       }`,
       true
     );
-
-    return;
+  } finally {
+    setPasswordFormBusy(false);
   }
+}
 
-  const { error: completionError } =
-    await passwordClient.rpc(
-      "complete_my_password_change"
-    );
+function setPasswordFormBusy(isBusy) {
+  newPasswordInput.disabled = isBusy;
+  confirmPasswordInput.disabled = isBusy;
+  changePasswordButton.disabled = isBusy;
 
-  changePasswordButton.disabled = false;
   changePasswordButton.textContent =
-    "Change password";
+    isBusy
+      ? "Changing password..."
+      : "Change password";
+}
 
-  if (completionError) {
-    showPasswordMessage(
-      `Your password changed, but the Writing Lab record could not be updated: ${
-        completionError.message
-      }`,
-      true
-    );
-
-    return;
+function getPasswordErrorMessage(error) {
+  if (
+    error &&
+    typeof error.message === "string"
+  ) {
+    return error.message;
   }
 
-  passwordForm.reset();
-  passwordForm.hidden = true;
-
-  passwordIntroduction.textContent =
-    "Your password has been changed.";
-
-  showPasswordMessage(
-    "Password change complete. You may continue to the administrator or consultant page."
-  );
+  return "An unexpected error occurred.";
 }
 
 function showPasswordMessage(
