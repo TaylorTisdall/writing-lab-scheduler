@@ -11,6 +11,7 @@ const supabaseClient = window.supabase.createClient(
 );
 
 window.writingLabConsultantClient = supabaseClient;
+
 const loginSection =
   document.getElementById("login-section");
 
@@ -51,8 +52,16 @@ const statusMessage =
   document.getElementById("status-message");
 
 loginForm.addEventListener("submit", signIn);
-scheduleForm.addEventListener("submit", saveAvailability);
-signOutButton.addEventListener("click", signOut);
+
+scheduleForm.addEventListener(
+  "submit",
+  saveAvailability
+);
+
+signOutButton.addEventListener(
+  "click",
+  signOut
+);
 
 initializePage();
 
@@ -66,7 +75,9 @@ async function initializePage() {
     showLogin();
 
     showStatus(
-      `The sign-in status could not be checked: ${error.message}`,
+      `The sign-in status could not be checked: ${
+        error.message
+      }`,
       true
     );
 
@@ -89,8 +100,11 @@ async function signIn(event) {
   loginButton.textContent = "Signing in...";
   showStatus("Signing in...");
 
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
+  const email =
+    emailInput.value.trim();
+
+  const password =
+    passwordInput.value;
 
   try {
     const { error } =
@@ -220,12 +234,13 @@ async function loadSchedule() {
 
   const [
     schoolYearResult,
-    templatesResult,
-    assignmentsResult
+    templatesResult
   ] = await Promise.all([
     supabaseClient
       .from("school_years")
-      .select("id, name, start_date, end_date")
+      .select(
+        "id, name, start_date, end_date"
+      )
       .eq("active", true)
       .maybeSingle(),
 
@@ -233,22 +248,18 @@ async function loadSchedule() {
       .from("shift_templates")
       .select(
         "id, day_of_week, start_time, duration_minutes"
-      ),
-
-    supabaseClient
-      .from("consultant_shifts")
-      .select("shift_template_id")
-      .eq("consultant_id", consultant.id)
+      )
   ]);
 
   const results = [
     schoolYearResult,
-    templatesResult,
-    assignmentsResult
+    templatesResult
   ];
 
   const failedResult =
-    results.find((result) => result.error);
+    results.find(
+      (result) => result.error
+    );
 
   if (failedResult) {
     showStatus(
@@ -270,18 +281,46 @@ async function loadSchedule() {
     return;
   }
 
-  const selectedShiftIds = new Set(
-    assignmentsResult.data.map(
-      (assignment) =>
-        assignment.shift_template_id
-    )
-  );
+  const assignmentsResult =
+    await supabaseClient
+      .from("consultant_shifts")
+      .select("shift_template_id")
+      .eq(
+        "consultant_id",
+        consultant.id
+      )
+      .eq(
+        "school_year_id",
+        schoolYearResult.data.id
+      )
+      .eq("active", true);
+
+  if (assignmentsResult.error) {
+    showStatus(
+      `Your current availability could not be loaded: ${
+        assignmentsResult.error.message
+      }`,
+      true
+    );
+
+    return;
+  }
+
+  const selectedShiftIds =
+    new Set(
+      assignmentsResult.data.map(
+        (assignment) =>
+          assignment.shift_template_id
+      )
+    );
 
   welcomeMessage.textContent =
     `Signed in as ${consultant.name}.`;
 
   schoolYearMessage.textContent =
-    `School year: ${schoolYearResult.data.name}`;
+    `School year: ${
+      schoolYearResult.data.name
+    }`;
 
   renderShiftOptions(
     templatesResult.data,
@@ -292,6 +331,7 @@ async function loadSchedule() {
     "Your current availability is loaded."
   );
 }
+
 function renderShiftOptions(
   templates,
   selectedShiftIds
@@ -306,35 +346,45 @@ function renderShiftOptions(
     ["Sunday", 7]
   ]);
 
-  const sortedTemplates = [...templates].sort(
-    (first, second) => {
-      const dayDifference =
-        dayOrder.get(first.day_of_week) -
-        dayOrder.get(second.day_of_week);
+  const sortedTemplates =
+    [...templates].sort(
+      (first, second) => {
+        const dayDifference =
+          dayOrder.get(
+            first.day_of_week
+          ) -
+          dayOrder.get(
+            second.day_of_week
+          );
 
-      if (dayDifference !== 0) {
-        return dayDifference;
+        if (dayDifference !== 0) {
+          return dayDifference;
+        }
+
+        return first.start_time.localeCompare(
+          second.start_time
+        );
       }
-
-      return first.start_time.localeCompare(
-        second.start_time
-      );
-    }
-  );
+    );
 
   let currentDay = "";
   let daySection = null;
 
   for (const template of sortedTemplates) {
-    if (template.day_of_week !== currentDay) {
-      currentDay = template.day_of_week;
+    if (
+      template.day_of_week !== currentDay
+    ) {
+      currentDay =
+        template.day_of_week;
 
-      daySection = document.createElement("section");
+      daySection =
+        document.createElement("section");
 
       const dayHeading =
         document.createElement("h3");
 
-      dayHeading.textContent = currentDay;
+      dayHeading.textContent =
+        currentDay;
 
       daySection.append(dayHeading);
       shiftOptions.append(daySection);
@@ -348,10 +398,15 @@ function renderShiftOptions(
 
     checkbox.type = "checkbox";
     checkbox.name = "shift";
-    checkbox.value = String(template.id);
-    checkbox.id = `shift-${template.id}`;
+    checkbox.value =
+      String(template.id);
+    checkbox.id =
+      `shift-${template.id}`;
+
     checkbox.checked =
-      selectedShiftIds.has(template.id);
+      selectedShiftIds.has(
+        template.id
+      );
 
     const label =
       document.createElement("label");
@@ -364,30 +419,44 @@ function renderShiftOptions(
         template.duration_minutes
       )}`;
 
-    optionContainer.append(checkbox, label);
-    daySection.append(optionContainer);
+    optionContainer.append(
+      checkbox,
+      label
+    );
+
+    daySection.append(
+      optionContainer
+    );
   }
 }
 
 async function saveAvailability(event) {
   event.preventDefault();
 
-  const selectedShiftIds = Array.from(
-    document.querySelectorAll(
-      'input[name="shift"]:checked'
-    )
-  ).map((checkbox) => Number(checkbox.value));
+  const selectedShiftIds =
+    Array.from(
+      document.querySelectorAll(
+        'input[name="shift"]:checked'
+      )
+    ).map(
+      (checkbox) =>
+        Number(checkbox.value)
+    );
 
   saveButton.disabled = true;
   saveButton.textContent = "Saving...";
-  showStatus("Saving your availability...");
+
+  showStatus(
+    "Saving your availability..."
+  );
 
   try {
     const { data, error } =
       await supabaseClient.rpc(
         "set_my_consultant_shifts",
         {
-          p_shift_template_ids: selectedShiftIds
+          p_shift_template_ids:
+            selectedShiftIds
         }
       );
 
@@ -395,26 +464,34 @@ async function saveAvailability(event) {
       throw error;
     }
 
-    const numberSaved = data.length;
+    const numberSaved =
+      data.length;
+
     const slotWord =
-      numberSaved === 1 ? "slot" : "slots";
+      numberSaved === 1
+        ? "slot"
+        : "slots";
 
     showStatus(
       `Availability saved: ${numberSaved} weekly ${slotWord}.`
     );
   } catch (error) {
     showStatus(
-      `Availability could not be saved: ${error.message}`,
+      `Availability could not be saved: ${
+        error.message
+      }`,
       true
     );
   } finally {
     saveButton.disabled = false;
-    saveButton.textContent = "Save availability";
+    saveButton.textContent =
+      "Save availability";
   }
 }
 
 async function signOut() {
   signOutButton.disabled = true;
+
   showStatus("Signing out...");
 
   const { error } =
@@ -451,27 +528,38 @@ function showSchedule() {
   scheduleSection.hidden = false;
 }
 
-function showStatus(message, isError = false) {
+function showStatus(
+  message,
+  isError = false
+) {
   statusMessage.textContent = message;
+
   statusMessage.setAttribute(
     "role",
     isError ? "alert" : "status"
   );
 }
 
-function formatTimeRange(startTime, durationMinutes) {
+function formatTimeRange(
+  startTime,
+  durationMinutes
+) {
   const [hourText, minuteText] =
     startTime.split(":");
 
   const startMinutes =
-    Number(hourText) * 60 + Number(minuteText);
+    Number(hourText) * 60 +
+    Number(minuteText);
 
   const endMinutes =
-    startMinutes + durationMinutes;
+    startMinutes +
+    durationMinutes;
 
-  return `${formatMinutes(startMinutes)}–${
-    formatMinutes(endMinutes)
-  }`;
+  return `${formatMinutes(
+    startMinutes
+  )}–${formatMinutes(
+    endMinutes
+  )}`;
 }
 
 function formatMinutes(totalMinutes) {
@@ -479,19 +567,22 @@ function formatMinutes(totalMinutes) {
     totalMinutes % (24 * 60);
 
   const hour24 =
-    Math.floor(normalizedMinutes / 60);
+    Math.floor(
+      normalizedMinutes / 60
+    );
 
   const minute =
     normalizedMinutes % 60;
 
   const period =
-    hour24 >= 12 ? "PM" : "AM";
+    hour24 >= 12
+      ? "PM"
+      : "AM";
 
   const hour12 =
     hour24 % 12 || 12;
 
-  return `${hour12}:${String(minute).padStart(
-    2,
-    "0"
-  )} ${period}`;
+  return `${hour12}:${String(
+    minute
+  ).padStart(2, "0")} ${period}`;
 }
